@@ -1,11 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Tilemaps;
 
 public class PlayerMove : MonoBehaviour
 {
-     bool IsStartPosition
+
+    [SerializeField]
+    private float speedForXAxis = 3f;
+
+    Vector2 currentDirection = Vector2.left;
+    float minMoveRangeX;
+    float maxMoveRangeX;
+    bool IsStartPosition
     {
         get
         {
@@ -14,18 +19,28 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    Vector2 currentDirection = Vector2.left;
-
-    [SerializeField]
-    private float speedForXAxis = 3f;
-
-
-    void Start()
+    bool IsMoveValidityCheck
     {
-
+        get
+        {
+            if (currentDirection == Vector2.left && transform.position.x <= minMoveRangeX
+                || currentDirection == Vector2.right && transform.position.x >= maxMoveRangeX)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        var background = FindFirstObjectByType<Tilemap>();
+        Debug.Log(GetComponent<CircleCollider2D>().radius);
+        float offset = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
+        minMoveRangeX = background.transform.position.x - offset;
+        maxMoveRangeX = background.transform.position.x + offset;
+    }
+
     void Update()
     {
         if (!IsStartPosition) {
@@ -51,7 +66,10 @@ public class PlayerMove : MonoBehaviour
             }
         }
 #endif
-        MovePosition(speedForXAxis, currentDirection);
+        if (IsMoveValidityCheck)
+        {
+            MovePosition(speedForXAxis, currentDirection);
+        }
     }
     private void MoveStartPosition() {
         MovePosition(3f, Vector2.down);
