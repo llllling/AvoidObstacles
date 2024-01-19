@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y > 0) {
+            transform
+            return;
+        }
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
@@ -37,6 +42,10 @@ public class PlayerMove : MonoBehaviour
         }
 #endif
         transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * currentDirection;
+    }
+    private void movePosition(float speed, Vector2 direction)
+    {
+        transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * direction;
     }
     private Vector2 ToggleDirection()
     {

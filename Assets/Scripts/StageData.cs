@@ -16,7 +16,9 @@ public class StageData : ScriptableObject
     [SerializeField] 
     private Vector2 limitMax;
 
-    public Vector2 LimitMin => limitMin;
-    public Vector2 LimitMax => limitMax;
+    public void Deconstruct(out Vector2 Limitmin, out Vector2 Limitmax) {
+        Limitmin = limitMin;
+        Limitmax = limitMax;
+    }
 }
 
