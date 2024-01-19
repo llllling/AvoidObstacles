@@ -5,10 +5,19 @@ using UnityEngine.Rendering;
 
 public class PlayerMove : MonoBehaviour
 {
+     bool IsStartPosition
+    {
+        get
+        {
+            if (transform.position.y > 0) return false;
+            return true;
+        }
+    }
+
     Vector2 currentDirection = Vector2.left;
 
     [SerializeField]
-    private float moveSpeed = 3f;
+    private float speedForXAxis = 3f;
 
 
     void Start()
@@ -19,10 +28,11 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y > 0) {
-            transform
+        if (!IsStartPosition) {
+            MoveStartPosition();
             return;
         }
+
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
@@ -41,12 +51,17 @@ public class PlayerMove : MonoBehaviour
             }
         }
 #endif
-        transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * currentDirection;
+        MovePosition(speedForXAxis, currentDirection);
     }
-    private void movePosition(float speed, Vector2 direction)
+    private void MoveStartPosition() {
+        MovePosition(3f, Vector2.down);
+    }
+
+    private void MovePosition(float speed, Vector2 direction)
     {
-        transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * direction;
+        transform.position = (Vector2)transform.position + speed * Time.deltaTime * direction;
     }
+    
     private Vector2 ToggleDirection()
     {
        currentDirection = currentDirection == Vector2.left ? Vector2.right : Vector2.left;
