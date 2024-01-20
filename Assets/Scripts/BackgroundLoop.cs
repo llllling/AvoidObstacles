@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundLoop : MonoBehaviour
@@ -21,13 +19,13 @@ public class BackgroundLoop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y >= backgroundSize.width)
+        if (transform.position.y >= backgroundSize.height)
         {
             Reposition();
         }
     }
     private void Reposition()
     {
-        transform.position = (Vector2)transform.position - new Vector2(0, height * 2f);
+        transform.position = (Vector2)transform.position - new Vector2(0, backgroundSize.height * 2f);
     }
 }

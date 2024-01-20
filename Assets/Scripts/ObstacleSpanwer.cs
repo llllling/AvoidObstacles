@@ -19,17 +19,17 @@ public class ObstacleSpanwer : MonoBehaviour
     private GameObject[] obstacles;
     private int currentIndex = 0;
 
-    private Vector2 InitialPosition = new Vector2(0f, 0f);
-
 
     void Start()
     {
+        Vector2 backgroundPos = GetComponent<BackgroundLoop>().transform.position;
+        Vector2 initialPos = new Vector2(0, 0);
         int count = Random.Range(minCount, minCount + 1);
         obstacles = new GameObject[count];
         for (int i = 0; i < count; i++)
         {
             {
-                obstacles[i] = Instantiate(obstaclePrefab, InitialPosition, Quaternion.identity);
+                obstacles[i] = Instantiate(obstaclePrefab, initialPos, Quaternion.identity);
             }
 
         }

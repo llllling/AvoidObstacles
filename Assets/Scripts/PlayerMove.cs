@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -34,8 +35,8 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        BackgroundLoop background = GetComponent<BackgroundLoop>();
-        float offset = background.backgroundSize.width / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
+        Tilemap background = FindFirstObjectByType<Tilemap>();
+        float offset = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
         minMoveRangeX = background.transform.position.x - offset;
         maxMoveRangeX = background.transform.position.x + offset;
     }
