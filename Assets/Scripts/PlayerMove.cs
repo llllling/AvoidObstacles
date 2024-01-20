@@ -34,9 +34,8 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        var background = FindFirstObjectByType<Tilemap>();
-        Debug.Log(GetComponent<CircleCollider2D>().radius);
-        float offset = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
+        BackgroundLoop background = GetComponent<BackgroundLoop>();
+        float offset = background.backgroundSize.width / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
         minMoveRangeX = background.transform.position.x - offset;
         maxMoveRangeX = background.transform.position.x + offset;
     }
