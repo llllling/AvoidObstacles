@@ -2,30 +2,23 @@ using UnityEngine;
 
 public class BackgroundLoop : MonoBehaviour
 {
-    public struct Size
-    {
-        public float width;
-        public float height;
-    }
-    public Size backgroundSize;
+     float height;
 
     void Start()
     {
-       Vector2 colliderSize = GetComponent<BoxCollider2D>().size;
-        backgroundSize.width = colliderSize.x;
-        backgroundSize.height = colliderSize.y;
+        height = GetComponent<BoxCollider2D>().size.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y >= backgroundSize.height)
+        if (transform.position.y >= height)
         {
             Reposition();
         }
     }
     private void Reposition()
     {
-        transform.position = (Vector2)transform.position - new Vector2(0, backgroundSize.height * 2f);
+        transform.position = (Vector2)transform.position - new Vector2(0, height * 2f);
     }
 }

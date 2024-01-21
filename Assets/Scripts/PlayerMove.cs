@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
 
     [SerializeField]
-    private float speedForXAxis = 3f;
+    private float speed = 3f;
 
     Vector2 currentDirection = Vector2.left;
     float minMoveRangeX;
@@ -45,7 +45,6 @@ public class PlayerMove : MonoBehaviour
     {
         if (!IsStartPosition) {
             MoveStartPosition();
-            return;
         }
 
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -68,7 +67,7 @@ public class PlayerMove : MonoBehaviour
 #endif
         if (IsMoveValidityCheck)
         {
-            MovePosition(speedForXAxis, currentDirection);
+            MovePosition(speed, currentDirection);
         }
     }
     private void MoveStartPosition() {
