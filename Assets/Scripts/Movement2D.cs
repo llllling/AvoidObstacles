@@ -1,22 +1,23 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Movement2D : MonoBehaviour
 {
     [SerializeField]
-    private float speed;
+    private float moveSpeed;
     [SerializeField]
     private Vector2 moveDirection = Vector2.zero;
-
-   
     public void Update()
     {
-        transform.position = (Vector2)transform.position + speed * Time.deltaTime * moveDirection;
+        Move();
     }
-
-    public void Init(float initSpeed, Vector2 initDirection)
+    public void Move()
     {
-        speed = initSpeed;
+       transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * moveDirection;
+    }
+  
+    public void InitMovement(float initSpeed, Vector2 initDirection)
+    {
+        moveSpeed = initSpeed;
         moveDirection = initDirection;
     }
 
@@ -25,4 +26,8 @@ public class Movement2D : MonoBehaviour
         moveDirection = direction;
     }
 
+    public void Speed(float speed)
+    {
+        moveSpeed = speed;
+    }
 }

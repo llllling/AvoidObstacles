@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BackgroundLoop : MonoBehaviour
 {
-     float height;
+    private float height;
 
     void Start()
     {

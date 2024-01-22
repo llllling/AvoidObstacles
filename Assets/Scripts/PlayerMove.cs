@@ -2,51 +2,42 @@ using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : Movement2D
 {
 
-    [SerializeField]
     private float speed = 3f;
 
-    Vector2 currentDirection = Vector2.left;
-    float minMoveRangeX;
-    float maxMoveRangeX;
-    bool IsStartPosition
+    private Vector2 currentDirection = Vector2.left;
+    private Vector2 minMoveRange;
+    private Vector2 maxMoveRange;
+    private bool IsStartPosition
     {
         get
         {
-            if (transform.position.y > 0) return false;
+            if (transform.position.y > minMoveRange.y) return false;
             return true;
         }
     }
 
-    bool IsMoveValidityCheck
+
+    void Reset()
     {
-        get
-        {
-            if (currentDirection == Vector2.left && transform.position.x <= minMoveRangeX
-                || currentDirection == Vector2.right && transform.position.x >= maxMoveRangeX)
-            {
-                return false;
-            }
-            return true;
-        }
+        InitMovement(speed, Vector2.down);
     }
 
     private void Start()
     {
         Tilemap background = FindFirstObjectByType<Tilemap>();
-        float offset = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
-        minMoveRangeX = background.transform.position.x - offset;
-        maxMoveRangeX = background.transform.position.x + offset;
+        float offsetX = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
+        minMoveRange = new Vector2(-offsetX, 0);
+        maxMoveRange = new Vector2(offsetX, transform.position.y);
     }
 
-    void Update()
+    new void Update()
     {
-        if (!IsStartPosition) {
-            MoveStartPosition();
-        }
+        Move();
 
+        if (!IsStartPosition) { return; }
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
@@ -65,23 +56,21 @@ public class PlayerMove : MonoBehaviour
             }
         }
 #endif
-        if (IsMoveValidityCheck)
-        {
-            MovePosition(speed, currentDirection);
-        }
-    }
-    private void MoveStartPosition() {
-        MovePosition(3f, Vector2.down);
+
     }
 
-    private void MovePosition(float speed, Vector2 direction)
+    void LateUpdate()
     {
-        transform.position = (Vector2)transform.position + speed * Time.deltaTime * direction;
+        PositionWithinRange();
     }
-    
-    private Vector2 ToggleDirection()
+
+    private void PositionWithinRange()
     {
-       currentDirection = currentDirection == Vector2.left ? Vector2.right : Vector2.left;
-        return currentDirection;
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, minMoveRange.x, maxMoveRange.x), Mathf.Clamp(transform.position.y, minMoveRange.y, maxMoveRange.y));
+    }
+    private void ToggleDirection()
+    {
+        currentDirection = currentDirection == Vector2.left ? Vector2.right : Vector2.left;
+        MoveTo(currentDirection);
     }
 }

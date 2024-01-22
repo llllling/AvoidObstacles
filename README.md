@@ -93,3 +93,57 @@ Unity 2022.3.14f1
            MovePosition(speedForXAxis, currentDirection);
        }
        ```
+
+* 배경,플레이어, 장애물 모두 이동에 관해 비슷한 코드를 작성함 => <span style="background-color: skyblue; color: black;">이동에 관한 클래스를 만든 후 이동을 구현하는 스크립트들을 모두 이 클래스를 상속하도록 함.</span>
+
+  - Movement2D class
+
+  ```c#
+    public class Movement2D : MonoBehaviour
+    {
+        [SerializeField]
+        private float moveSpeed;
+        [SerializeField]
+        private Vector2 moveDirection = Vector2.zero;
+
+        public void Update()
+        {
+            Move();
+        }
+
+        public void Move()
+        {
+            transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * moveDirection;
+        }
+
+        public void InitMovement(float initSpeed, Vector2 initDirection)
+        {
+            moveSpeed = initSpeed;
+            moveDirection = initDirection;
+        }
+
+        public void MoveTo(Vector2 direction)
+        {
+            moveDirection = direction;
+        }
+
+        public void Speed(float speed)
+        {
+            moveSpeed = speed;
+        }
+    }
+
+  ```
+
+  - 배경 스크롤
+
+  ```C#
+  public class BackgroundScroll : Movement2D
+  {
+      void Reset()
+      {
+          Init(3f, Vector2.up);
+      }
+  }
+
+  ```
