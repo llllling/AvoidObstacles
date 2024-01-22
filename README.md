@@ -52,48 +52,6 @@ Unity 2022.3.14f1
 
 - 플레이어 이동 시 Transform vs Rigidbody : 물리적 시뮬레이션(중력의 영향을 받는 등)이 필요하거나 다른 Rigidbody와의 상호작용이 아니고, 간단한 이동이나 위치 변환이므로 Transform을 사용
 
-* 플레이어 조작 시 좌,우만 이동하는 데 **범위 내에서만 이동 가능하게** 구현 시 고려한 점
-
-  1. 처음에 Mathf.Clamp()를 사용해서 x좌표를 제한하도록 코드를 작성하려고 했음.
-  2. 그러나 게임을 처음 시작할 때 캐릭터가 최상단에서 중앙으로 이동하는 동작(y좌표 수정)이 한번 있음. 이때도 transform으로 이동을 구현해야 해서 <span style="background-color: skyblue; color: black;">이동이라는 같은 기능이므로 이동 함수를 따로 만듬</span>
-
-  ```C#
-    private void MovePosition(float speed, Vector2 direction)
-  {
-    transform.position = (Vector2)transform.position + speed * Time.deltaTime * direction;
-  }
-  ```
-
-  3. 위 처럼 함수로 뺄 경우, X좌표에 Mathf.Clamp()를 사용해도 상관은 없지만(_어차피 게임 첫 시작 동작은 y만 움직이므로_) <span style="background-color: skyblue; color: black;">코드를 해석할 때 의미가 명확하지 않은 것 같아서</span> 사용 X
-  4. IsMoveValidityCheck라는 프로퍼티를 생성해서 x좌표가 범위 내에 있어서 이동가능 한 상태인 지 체크
-
-     - IsMoveValidityCheck 선언
-
-       ```C#
-        bool IsMoveValidityCheck
-        {
-            get
-            {
-                if (currentDirection == Vector2.left && transform.position.x <= minMoveRangeX
-                    || currentDirection == Vector2.right && transform.position.x >= maxMoveRangeX)
-                {
-                    return false;
-                }
-                return true;
-            }
-        }
-
-       ```
-
-     - 이동 가능할 경우 MovePosition 호출
-
-       ```C#
-       if (IsMoveValidityCheck)
-       {
-           MovePosition(speedForXAxis, currentDirection);
-       }
-       ```
-
 * 배경,플레이어, 장애물 모두 이동에 관해 비슷한 코드를 작성함 => <span style="background-color: skyblue; color: black;">이동에 관한 클래스를 만든 후 이동을 구현하는 스크립트들을 모두 이 클래스를 상속하도록 함.</span>
 
   - Movement2D class
@@ -136,6 +94,7 @@ Unity 2022.3.14f1
   ```
 
   - 배경 스크롤
+    - 추가적으로 Update내에 구현할 로직이 없으므로 오버라이드 안함. => Movement2D의 Update가 호출됨.
 
   ```C#
   public class BackgroundScroll : Movement2D
@@ -146,4 +105,41 @@ Unity 2022.3.14f1
       }
   }
 
+  ```
+
+  - 플레이어 움직임
+    - PlayerMove클래스느 Update함수에서 수행하는 동작이 있어서 메소드를 오버라이드 => Movement2D Move() 함수를 호출해주어 움직이도록 구현
+
+  ```c#
+   class PlayerMove : Movement2D
+  {
+      ...
+
+      new void Update()
+      {
+          Move();
+
+          if (!IsStartPosition) { return; }
+  #if UNITY_EDITOR || UNITY_STANDALONE
+          if (Input.GetMouseButtonDown(0))
+          {
+              ToggleDirection();
+          }
+
+  #endif
+
+  #if UNITY_ANDROID || UNITY_IOS
+          if (Input.touchCount > 0)
+          {
+              Touch touch = Input.GetTouch(0);
+              if (touch.phase == TouchPhase.Began)
+              {
+                  ToggleDirection();
+              }
+          }
+  #endif
+
+      }
+      ...
+  }
   ```
