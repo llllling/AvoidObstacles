@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public TMP_Text scoreText;
+
     public bool IsGameover { get; private set; } = false;
     public int Score { get; private set; } = 0;
     void Awake()
@@ -28,5 +29,9 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         Score += score;
+        if (scoreText != null)
+        {
+            scoreText.text = Score.ToString();
+        }
     }
 }
