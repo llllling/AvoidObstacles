@@ -40,13 +40,14 @@ public class Spanwer : MonoBehaviour
         placementMaxTime = max;
     }
 
-    ///// <summary>
-    ///// 파라미터로 받은 위치값에 다른 게임 오브젝트 존재 여부를 체크해서 해당 위치의 사용 가능 여부를 반환한다.
-    ///// </summary>
-    //protected bool IsEnablePostion(Vector2 pos)
-    //{
-    //   return !Utills.CheckForObjectAtPoint(pos);
-    //}
+    /// <summary>
+    /// 장애물, 코인이 겹치게 생성되지 않도록
+    /// 파라미터로 받은 위치값에 다른 게임 오브젝트 존재 여부를 체크해서 해당 위치의 사용 가능 여부를 반환한다.
+    /// </summary>
+    protected bool IsEnablePostion(Vector2 position)
+    {
+        return !Utills.CheckOverlapWithinRange(position, 2.5f);
+    }
 
     private void CreateObstacles()
     {

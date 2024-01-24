@@ -64,7 +64,7 @@ Unity 2022.3.14f1
         [SerializeField]
         private Vector2 moveDirection = Vector2.zero;
 
-        public void Update()
+        void Update()
         {
             Move();
         }
@@ -80,15 +80,7 @@ Unity 2022.3.14f1
             moveDirection = initDirection;
         }
 
-        public void MoveTo(Vector2 direction)
-        {
-            moveDirection = direction;
-        }
-
-        public void Speed(float speed)
-        {
-            moveSpeed = speed;
-        }
+        // ...코드 생략
     }
 
   ```
@@ -101,7 +93,7 @@ Unity 2022.3.14f1
   {
       void Reset()
       {
-          Init(3f, Vector2.up);
+          InitMovement(3f, Vector2.up);
       }
   }
 
@@ -113,9 +105,9 @@ Unity 2022.3.14f1
   ```c#
    class PlayerMove : Movement2D
   {
-      ...
+      //..코드생략
 
-      new void Update()
+      void Update()
       {
           Move();
 
@@ -140,6 +132,6 @@ Unity 2022.3.14f1
   #endif
 
       }
-      ...
+      //..코드생략
   }
   ```

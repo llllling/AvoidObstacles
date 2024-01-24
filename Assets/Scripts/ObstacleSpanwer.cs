@@ -1,24 +1,25 @@
 using UnityEngine;
+using Utill;
 
 public class ObstacleSpanwer : Spanwer
 {
     void Reset()
     {
-        InitPlacementMinMax(0.5f, 0.8f);
+        count = 7;
+        InitPlacementMinMax(0.3f, 0.7f);
     }
 
     void Update()
     {
         if (GameManager.instance.IsGameover) return;
 
-        Vector2 randomPos = new(Random.Range(xPosMin, xPosMax), yPos);
         if (Time.time < lastPlacementTime + placementTime) return;
 
         lastPlacementTime = Time.time;
         
         placementTime = Random.Range(placementMinTime, placementMaxTime);
-        prefabs[currentIndex++].transform.position = randomPos;
 
+        prefabs[currentIndex++].transform.position = new(Random.Range(xPosMin, xPosMax), yPos);
         if (currentIndex == prefabs.Length)
         {
             currentIndex = 0;

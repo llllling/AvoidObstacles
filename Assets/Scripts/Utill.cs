@@ -1,14 +1,14 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace Utill
 {
-   static public class Utills
+    static public class Utills
     {
-        static public bool CheckForObjectAtPoint(Vector2 point)
+        static public bool CheckOverlapWithinRange(Vector2 position, float radius)
         {
-            Collider2D collider = Physics2D.OverlapPoint(point);
-
-            return (collider != null);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
+            return colliders.Length > 0;
         }
     }
 }
