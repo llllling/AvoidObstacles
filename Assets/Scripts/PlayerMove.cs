@@ -4,9 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class PlayerMove : Movement2D
 {
-
-    private float speed = 3f;
-
+  
     private Vector2 currentDirection = Vector2.left;
     private Vector2 minMoveRange;
     private Vector2 maxMoveRange;
@@ -22,10 +20,10 @@ public class PlayerMove : Movement2D
 
     void Reset()
     {
-        InitMovement(speed, Vector2.down);
+        InitMovement(3f, Vector2.down);
     }
 
-    private void Start()
+    void Start()
     {
         Tilemap background = FindFirstObjectByType<Tilemap>();
         float offsetX = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
@@ -33,8 +31,10 @@ public class PlayerMove : Movement2D
         maxMoveRange = new Vector2(offsetX, transform.position.y);
     }
 
-    new void Update()
+    void Update()
     {
+        if (GameManager.instance.IsGameover) return;
+
         Move();
 
         if (!IsStartPosition) { return; }

@@ -6,5 +6,4 @@ public class BackgroundScroll : Movement2D
     {
         InitMovement(3f, Vector2.up);
     }
-
 }

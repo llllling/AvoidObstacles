@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public bool IsGameover { get; private set; } = false;
+    public int Score { get; private set; } = 0;
     void Awake()
     {
         if (instance == null)
@@ -19,10 +20,13 @@ public class GameManager : MonoBehaviour
         
     }
 
-   
-
     public void OnPlayerDead()
     {
         IsGameover = true;
+    }
+
+    public void AddScore(int score)
+    {
+        Score += score;
     }
 }

@@ -2361,7 +2361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 2020774629840748719, guid: a26151a257601da40ad4f7ad1ee9bd16, type: 3}
-  count: 19
+  count: 10
   placementMinTime: 0.25
   placementMaxTime: 0.75
 --- !u!4 &952689542

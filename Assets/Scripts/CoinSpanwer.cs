@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class ObstacleSpanwer : Spanwer
+public class CoinSpanwer : Spanwer
 {
     void Reset()
     {
-        InitPlacementMinMax(0.5f, 0.8f);
+        count = 5;
+        InitPlacementMinMax(1f, 1.5f);
     }
 
     void Update()
@@ -15,8 +16,12 @@ public class ObstacleSpanwer : Spanwer
         if (Time.time < lastPlacementTime + placementTime) return;
 
         lastPlacementTime = Time.time;
-        
         placementTime = Random.Range(placementMinTime, placementMaxTime);
+
+        if (!prefabs[currentIndex].activeSelf)
+        {
+            prefabs[currentIndex].SetActive(true);
+        }
         prefabs[currentIndex++].transform.position = randomPos;
 
         if (currentIndex == prefabs.Length)
@@ -24,6 +29,6 @@ public class ObstacleSpanwer : Spanwer
             currentIndex = 0;
         }
     }
-  
-  
+
+
 }

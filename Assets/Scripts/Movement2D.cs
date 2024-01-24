@@ -6,27 +6,28 @@ public class Movement2D : MonoBehaviour
     private float moveSpeed;
     [SerializeField]
     private Vector2 moveDirection = Vector2.zero;
-    public void Update()
+    void Update()
     {
+        if (GameManager.instance.IsGameover) return;
         Move();
     }
-    public void Move()
+    protected void InitMovement(float speed, Vector2 direction)
     {
-       transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * moveDirection;
-    }
-  
-    public void InitMovement(float initSpeed, Vector2 initDirection)
-    {
-        moveSpeed = initSpeed;
-        moveDirection = initDirection;
+        moveSpeed = speed;
+        moveDirection = direction;
     }
 
-    public void MoveTo(Vector2 direction)
+    protected void Move()
+    {
+        transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * moveDirection;
+    }
+
+    protected void MoveTo(Vector2 direction)
     {
         moveDirection = direction;
     }
 
-    public void Speed(float speed)
+    protected void Speed(float speed)
     {
         moveSpeed = speed;
     }
