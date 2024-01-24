@@ -2489,9 +2489,9 @@ MonoBehaviour:
   prefab: {fileID: 7721162994172841558, guid: 486ca2c565ad81743818ff9a0cd8094b, type: 3}
   prefabs: []
   currentIndex: 0
-  placementMinTime: 1
-  placementMaxTime: 1.5
-  count: 5
+  placementMinTime: 0.5
+  placementMaxTime: 1
+  count: 10
 --- !u!4 &1024295038
 Transform:
   m_ObjectHideFlags: 0
