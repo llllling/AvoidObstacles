@@ -1,13 +1,16 @@
-using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class PlayerMove : Movement2D
 {
-  
+
     private Vector2 currentDirection = Vector2.left;
     private Vector2 minMoveRange;
     private Vector2 maxMoveRange;
+    
+    private Animator animator;
+
+    private bool isStartWalkAnimation = false;
     private bool IsStartPosition
     {
         get
@@ -29,6 +32,8 @@ public class PlayerMove : Movement2D
         float offsetX = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
         minMoveRange = new Vector2(-offsetX, 0);
         maxMoveRange = new Vector2(offsetX, transform.position.y);
+
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -38,6 +43,12 @@ public class PlayerMove : Movement2D
         Move();
 
         if (!IsStartPosition) { return; }
+        if (!isStartWalkAnimation)
+        {
+            animator.SetTrigger("Walk");
+            isStartWalkAnimation = true;
+        }
+
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
@@ -71,6 +82,18 @@ public class PlayerMove : Movement2D
     private void ToggleDirection()
     {
         currentDirection = currentDirection == Vector2.left ? Vector2.right : Vector2.left;
+        ExecuteAnimation(currentDirection);
         MoveTo(currentDirection);
+    }
+
+    private void ExecuteAnimation(Vector2 currentDirection)
+    {
+        if (currentDirection == Vector2.right)
+        {
+            animator.SetBool("IsLeft", false);
+        } else if (currentDirection == Vector2.left)
+        {
+            animator.SetBool("IsLeft", true);
+        }
     }
 }
