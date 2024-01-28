@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         }
         
     }
-
+    
     public void OnPlayerDead()
     {
         IsGameover = true;
@@ -34,4 +34,5 @@ public class GameManager : MonoBehaviour
             scoreText.text = Score.ToString();
         }
     }
+
 }
