@@ -5,21 +5,21 @@ public class CoinSpanwer : Spanwer
     void Reset()
     {
         count = 10;
-        InitPlacementMinMax(0.5f, 1f);
+        InitBatchMinMaxTime(0.5f, 1f);
     }
 
     void Update()
     {
         if (GameManager.instance.IsGameover) return;
 
-        if (Time.time < lastPlacementTime + placementTime) return;
+        if (Time.time < lastBatchTime + batchTime) return;
 
         Vector2 randomPos = new(Random.Range(xPosMin, xPosMax), yPos);
         if (!IsEnablePostion(randomPos)) return;
 
-        lastPlacementTime = Time.time;
+        lastBatchTime = Time.time;
 
-        placementTime = Random.Range(placementMinTime, placementMaxTime);
+        batchTime = Random.Range(batchMinTime, batchMaxTime);
 
         if (!prefabs[currentIndex].activeSelf)
         {

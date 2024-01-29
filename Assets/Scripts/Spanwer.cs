@@ -10,11 +10,11 @@ public class Spanwer : MonoBehaviour
     [HideInInspector]
     public int currentIndex = 0;
 
-    public float placementMinTime;
-    public float placementMaxTime;
+    public float batchMinTime;
+    public float batchMaxTime;
     
-    protected float placementTime = 0f;
-    protected float lastPlacementTime = 0f;
+    protected float batchTime = 0f;
+    protected float lastBatchTime = 0f;
 
     protected float xPosMin;
     protected float xPosMax;
@@ -34,10 +34,10 @@ public class Spanwer : MonoBehaviour
         InitXPosMinMax();
     }
 
-    protected void InitPlacementMinMax(float min, float max)
+    protected void InitBatchMinMaxTime(float min, float max)
     {
-        placementMinTime = min;
-        placementMaxTime = max;
+        batchMinTime = min;
+        batchMaxTime = max;
     }
 
     /// <summary>
