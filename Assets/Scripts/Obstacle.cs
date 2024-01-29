@@ -11,7 +11,7 @@ public class Obstacle : Movement2D
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag(Player.PLAYER_TAG)) return;
-   //     GameManager.instance.OnPlayerDead();
+        GameManager.instance.OnPlayerDead();
     }
 
 

@@ -1,10 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public TMP_Text scoreText;
+    public GameObject gameOverObj;
 
     public bool IsGameover { get; private set; } = false;
     public int Score { get; private set; } = 0;
@@ -20,10 +22,12 @@ public class GameManager : MonoBehaviour
         }
         
     }
-    
+
     public void OnPlayerDead()
     {
         IsGameover = true;
+        gameOverObj.SetActive(true);
+
     }
 
     public void AddScore(int score)
@@ -35,4 +39,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnRestart() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void OnLoadIntro()
+    {
+        SceneManager.LoadScene("IntroScene");
+    }
 }
