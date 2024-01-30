@@ -1,20 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+public enum PlayerStatus
+{
+    NONE,
+    INVINCIBLE
+}
 public class Player : MonoBehaviour
 {
-    public static string  PLAYER_TAG = "";
-    // Start is called before the first frame update
+    [HideInInspector]
+    public static PlayerStatus status = PlayerStatus.NONE;
+    [HideInInspector]
+    public static string playerTag;
     void Start()
     {
-        Player.PLAYER_TAG = gameObject.tag;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        
+        playerTag = gameObject.tag;
     }
 }

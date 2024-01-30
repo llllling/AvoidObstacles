@@ -137,3 +137,32 @@ Unity 2022.3.14f1
       //..코드생략
   }
   ```
+  * 현재는 아이템이 하나 이지만 나중에 여러개일 경우를 고려하여 Item 추상 클래스를 생성하여 상속받아 사용하도록 구현
+    * Item.cs
+        * 공통 기능을 부모에서 구현 
+            * 충돌 이벤트가 일어났을 때 Player인지 검사
+            * 아이템 충돌 시 사라지도록
+        * 아이템 별 기능은 자식 클래스가 구현하도록 Use 추상 메서드 선언 및 OnTriggerEnter2D()에서 Use() 호출
+    ```c#
+        public enum ItemType
+        {
+            Invincible
+        }
+        public abstract class Item : Movement2D
+        {
+            public abstract void Use();
+            void OnTriggerEnter2D(Collider2D collision)
+            {
+                if (!collision.CompareTag("Player")) return;
+                gameObject.SetActive(false);
+
+                Use();
+            }
+
+        }
+
+    ```
+    * InvincibleItem.cs
+    ```c#
+
+    ```

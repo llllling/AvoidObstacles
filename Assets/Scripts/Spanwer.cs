@@ -39,7 +39,10 @@ public class Spanwer : MonoBehaviour
         batchMinTime = min;
         batchMaxTime = max;
     }
-
+    protected float GetRandomBatchTime()
+    {
+        return Random.Range(batchMinTime, batchMaxTime);
+    }
     /// <summary>
     /// 장애물, 코인이 겹치게 생성되지 않도록
     /// 파라미터로 받은 위치값에 다른 게임 오브젝트 존재 여부를 체크해서 해당 위치의 사용 가능 여부를 반환한다.

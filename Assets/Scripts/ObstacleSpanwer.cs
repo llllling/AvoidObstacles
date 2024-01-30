@@ -6,7 +6,7 @@ public class ObstacleSpanwer : Spanwer
     void Reset()
     {
         count = 7;
-        InitBatchMinMaxTime(0.3f, 0.7f);
+        InitBatchMinMaxTime(0.8f, 1f);
     }
 
     void Update()
@@ -17,7 +17,7 @@ public class ObstacleSpanwer : Spanwer
 
         lastBatchTime = Time.time;
 
-        batchTime = Random.Range(batchMinTime, batchMaxTime);
+        batchTime = GetRandomBatchTime();
 
         prefabs[currentIndex++].transform.position = new(Random.Range(xPosMin, xPosMax), yPos);
         if (currentIndex == prefabs.Length)

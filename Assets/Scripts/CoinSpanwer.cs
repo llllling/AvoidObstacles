@@ -19,7 +19,7 @@ public class CoinSpanwer : Spanwer
 
         lastBatchTime = Time.time;
 
-        batchTime = Random.Range(batchMinTime, batchMaxTime);
+        batchTime = GetRandomBatchTime();
 
         if (!prefabs[currentIndex].activeSelf)
         {

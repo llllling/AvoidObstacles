@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public class Coin : Movement2D
+public enum ItemType
 {
-    [SerializeField]
-    private int coinScore = 10;
+    Invincible
+}
+public abstract class Item : Movement2D
+{
+    public abstract void Use();
+
     void Reset()
     {
         InitMovement(3f, Vector2.up);
@@ -11,9 +15,10 @@ public class Coin : Movement2D
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (!collision.CompareTag(Player.playerTag)) return;
         gameObject.SetActive(false);
-        GameManager.instance.AddScore(coinScore);
+       
+        Use();
     }
+
 }
