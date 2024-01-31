@@ -27,7 +27,7 @@ public class Obstacle : MovementSpeedUP
             return;
         }
 
-        //   GameManager.instance.OnPlayerDead();
+           GameManager.instance.OnPlayerDead();
 
 
 

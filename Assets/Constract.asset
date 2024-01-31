@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5edfb80f0bf3e43987fd479aabc0a2, type: 3}
   m_Name: Constract
   m_EditorClassIdentifier: 
-  speedUpTimeInterval: 3
-  scrollIncreaseSpeed: 1.005
+  speedUpTimeInterval: 2
+  scrollIncreaseSpeed: 1.05
+  initSpeed: 0
+  maxScrollSpeed: 0
