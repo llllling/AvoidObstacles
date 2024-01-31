@@ -93,22 +93,9 @@ Unity 2022.3.14f1
 
   ```
 
-  - 배경 스크롤
-    - 추가적으로 Update내에 구현할 로직이 없으므로 오버라이드 안함. => Movement2D의 Update가 호출됨.
-
-  ```C#
-  public class BackgroundScroll : Movement2D
-  {
-      void Reset()
-      {
-          InitMovement(3f, Vector2.up);
-      }
-  }
-
-  ```
-
   - 플레이어 움직임
-    - PlayerMove클래스느 Update함수에서 수행하는 동작이 있어서 메소드를 오버라이드 => Movement2D Move() 함수를 호출해주어 움직이도록 구현
+    - PlayerMove클래스는 Update함수에서 수행하는 동작이 있어서 Movement2D Move() 함수를 호출해주어 움직이도록 구현
+    - 자식 클래스에서 Update()가 있는 경우 부모 클래스의 Update()는 호출되지 않는다.
 
   ```c#
    class PlayerMove : Movement2D
@@ -143,32 +130,106 @@ Unity 2022.3.14f1
       //..코드생략
   }
   ```
+* 배경, 장애물, 아이템, 코인은 시간이 지날수록 스크롤 속도가 점점 빨라지는 공통 기능이 있음. => Movement2D를 상속받은 MovementSpeedUP 클래스 생성
+    * MovementSpeedUP.cs
+     ```c#
+    public class MovementSpeedUP : Movement2D
+    {
+        private readonly TimeInterval interval = new(Constract.speedUpTimeInterval);
+
+        void Update()
+        {
+            MoveAndIntervalSpeedUP();
+        }
+
+        public void MoveAndIntervalSpeedUP()
+        {
+            if (interval.IsExceedTimeInterval())
+            {
+                interval.lastTime = Time.time;
+                moveSpeed *= Constract.scrollIncreaseSpeed;
+            }
+            Move();
+        }
+    }
+    ```
+    * BackgrooundScroll.cs : 배경
+    ```c#
+        public class BackgroundScroll : MovementSpeedUP
+        {
+            void Reset()
+            {
+                InitMovement(3f, Vector2.up);
+            }
+        }
+
+    ```
+    * Coin.cs
+    ```c#
+     public class Coin : MovementSpeedUP
+    {
+        [SerializeField]
+        private int coinScore = 10;
+        void Reset()
+        {
+            InitMovement(3f, Vector2.up);
+        }
+
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+
+            if (!collision.CompareTag(Player.playerTag)) return;
+            gameObject.SetActive(false);
+            GameManager.instance.AddScore(coinScore);
+        }
+    }
+   ```
+   
   * 현재는 아이템이 하나 이지만 나중에 여러개일 경우를 고려하여 Item 추상 클래스를 생성하여 상속받아 사용하도록 구현
     * Item.cs
-        * 공통 기능을 부모에서 구현 
+        * 공통 기능 구현 
             * 충돌 이벤트가 일어났을 때 Player인지 검사
             * 아이템 충돌 시 사라지도록
         * 아이템 별 기능은 자식 클래스가 구현하도록 Use 추상 메서드 선언 및 OnTriggerEnter2D()에서 Use() 호출
     ```c#
-        public enum ItemType
-        {
-            Invincible
-        }
-        public abstract class Item : Movement2D
-        {
-            public abstract void Use();
-            void OnTriggerEnter2D(Collider2D collision)
-            {
-                if (!collision.CompareTag("Player")) return;
-                gameObject.SetActive(false);
+    public enum ItemType
+    {
+        Invincible
+    }
+    public abstract class Item : Movement2D
+    {
+        public abstract void Use(); //추상 메서드
 
-                Use();
-            }
-
+        void Reset()
+        {
+            InitMovement(3f, Vector2.up);
         }
+
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (!collision.CompareTag(Player.playerTag)) return;
+            gameObject.SetActive(false);
+       
+            Use(); //자식이 구현한 추상 메서드 호출
+        }
+
+    }
+
 
     ```
     * InvincibleItem.cs
     ```c#
+    public class InvincibleItem : Item
+    {
+        public override void Use()
+        {
+            InvincibleItemSpanwer spanwer = GameObject.Find("InvincibleItemSpanwer").GetComponent<InvincibleItemSpanwer>();
+            spanwer.uiImage.gameObject.SetActive(true);
+            spanwer.isUsingItem = true;
+            spanwer.HideAllItems();
+
+            Player.status = PlayerStatus.INVINCIBLE;
+        }
+    }
 
     ```
