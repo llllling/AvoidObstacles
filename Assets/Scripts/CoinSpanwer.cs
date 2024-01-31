@@ -12,14 +12,14 @@ public class CoinSpanwer : Spanwer
     {
         if (GameManager.instance.IsGameover) return;
 
-        if (Time.time < lastBatchTime + batchTime) return;
+        if (!batchInterval.IsExceedTimeInterval()) return;
 
         Vector2 randomPos = new(Random.Range(xPosMin, xPosMax), yPos);
         if (!IsEnablePostion(randomPos)) return;
 
-        lastBatchTime = Time.time;
+        batchInterval.lastTime = Time.time;
 
-        batchTime = GetRandomBatchTime();
+        batchInterval.timeInterval = GetRandomBatchTime();
 
         if (!prefabs[currentIndex].activeSelf)
         {

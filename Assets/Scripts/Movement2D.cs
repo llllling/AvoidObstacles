@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Movement2D : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed;
+    public float moveSpeed;
     [SerializeField]
     private Vector2 moveDirection = Vector2.zero;
     void Update()
@@ -25,10 +24,5 @@ public class Movement2D : MonoBehaviour
     protected void MoveTo(Vector2 direction)
     {
         moveDirection = direction;
-    }
-
-    protected void Speed(float speed)
-    {
-        moveSpeed = speed;
     }
 }

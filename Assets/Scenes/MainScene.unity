@@ -271,7 +271,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 47156550}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 0.0001
   m_LinearDrag: 0
@@ -2773,8 +2773,8 @@ MonoBehaviour:
   initPosition: {x: 0, y: -10}
   prefabs: []
   currentIndex: 0
-  batchMinTime: 0
-  batchMaxTime: 0
+  batchMinTime: 0.5
+  batchMaxTime: 1
   count: 10
 --- !u!4 &1024295038
 Transform:
@@ -2967,6 +2967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401b9aac9af54a34facd4f18dc3704dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constract: {fileID: 11400000, guid: 679b98f276753fc44ae6dbb883fda3d2, type: 2}
   scoreText: {fileID: 387603956}
   gameOverObj: {fileID: 1001241685}
 --- !u!1 &1919596368

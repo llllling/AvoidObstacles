@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace Utill
 {
@@ -10,5 +9,21 @@ namespace Utill
             Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
             return colliders.Length > 0;
         }
+    }
+
+    public class TimeInterval
+    {
+        public float lastTime = 0f;
+        public float timeInterval = 0f;
+
+        public TimeInterval(float timeInterval = 0f) {
+            this.timeInterval = timeInterval;
+        }
+        public bool IsExceedTimeInterval()
+        {
+            return Time.time >= lastTime + timeInterval;
+        }
+
+
     }
 }

@@ -1,16 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class Obstacle : Movement2D
+public class Obstacle : MovementSpeedUP
 {
     private Animator animator;
     private new Rigidbody2D rigidbody;
-    private const float forceMagnitude = 13f;
+    private const float forceMagnitude = 15f;
 
-    private void Reset()
-    {
-        InitMovement(3f, Vector2.up);
-    }
+
     void Start()
     {
         InitMovement(3f, Vector2.up);
@@ -18,10 +15,6 @@ public class Obstacle : Movement2D
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
-        Move();
-    }
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag(Player.playerTag)) return;

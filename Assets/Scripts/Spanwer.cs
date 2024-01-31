@@ -14,8 +14,7 @@ public class Spanwer : MonoBehaviour
     public float batchMinTime;
     public float batchMaxTime;
     
-    protected float batchTime = 0f;
-    protected float lastBatchTime = 0f;
+    protected TimeInterval batchInterval = new();
 
     protected float xPosMin;
     protected float xPosMax;
@@ -27,7 +26,6 @@ public class Spanwer : MonoBehaviour
     void Start()
     {
         Init();
-
     }
     protected void Init()
     {

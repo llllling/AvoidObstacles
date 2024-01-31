@@ -4,14 +4,9 @@ public enum ItemType
 {
     Invincible
 }
-public abstract class Item : Movement2D
+public abstract class Item : MovementSpeedUP
 {
     public abstract void Use();
-
-    void Reset()
-    {
-        InitMovement(3f, Vector2.up);
-    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {

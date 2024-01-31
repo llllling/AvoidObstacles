@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BackgroundScroll : Movement2D
+public class BackgroundScroll : MovementSpeedUP
 {
     void Reset()
     {

@@ -13,11 +13,11 @@ public class ObstacleSpanwer : Spanwer
     {
         if (GameManager.instance.IsGameover) return;
 
-        if (Time.time < lastBatchTime + batchTime) return;
+        if (!batchInterval.IsExceedTimeInterval()) return;
 
-        lastBatchTime = Time.time;
+        batchInterval.lastTime = Time.time;
 
-        batchTime = GetRandomBatchTime();
+        batchInterval.timeInterval = GetRandomBatchTime();
 
         prefabs[currentIndex++].transform.position = new(Random.Range(xPosMin, xPosMax), yPos);
         if (currentIndex == prefabs.Length)

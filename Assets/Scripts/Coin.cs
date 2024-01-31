@@ -1,14 +1,10 @@
 using UnityEngine;
 
-public class Coin : Movement2D
+public class Coin : MovementSpeedUP
 {
     [SerializeField]
     private int coinScore = 10;
-    void Reset()
-    {
-        InitMovement(3f, Vector2.up);
-    }
-
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
 

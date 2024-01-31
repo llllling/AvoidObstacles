@@ -20,17 +20,17 @@ public class InvincibleItemSpanwer : Spanwer
     {
         Init();
         uiImage = GameObject.Find("Canvas").transform.Find("InvincibleItemUI").GetComponent<Image>();
-        batchTime = FirstBatchTime;
+        batchInterval.timeInterval = FirstBatchTime;
     }
     void Update()
     {
         if (GameManager.instance.IsGameover || isUsingItem) return;
 
-        if (Time.time < lastBatchTime + batchTime) return;
+        if (!batchInterval.IsExceedTimeInterval()) return;
 
-        lastBatchTime = Time.time;
+        batchInterval.lastTime = Time.time;
 
-        batchTime = GetRandomBatchTime();
+        batchInterval.timeInterval = GetRandomBatchTime();
 
         prefabs[currentIndex].SetActive(true);
         prefabs[currentIndex++].transform.position = new(Random.Range(xPosMin, xPosMax), yPos);
