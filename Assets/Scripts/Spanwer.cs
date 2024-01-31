@@ -5,6 +5,7 @@ using Utill;
 public class Spanwer : MonoBehaviour
 {
     public GameObject prefab;
+    public Vector2 initPosition = new(0, -10f);
     [HideInInspector]
     public GameObject[] prefabs;
     [HideInInspector]
@@ -54,7 +55,7 @@ public class Spanwer : MonoBehaviour
 
     private void CreateObstacles()
     {
-        Vector2 initPosition = new(0, -10f);
+    
         prefabs = new GameObject[count];
         for (int i = 0; i < count; i++)
         {

@@ -8,16 +8,19 @@ public class InvincibleItemSpanwer : Spanwer
     public bool isUsingItem = false;
     [HideInInspector]
     public Image uiImage;
+    public float FirstBatchTime;
     private void Reset()
     {
         count = 3;
         InitBatchMinMaxTime(2f, 3f);
     }
+   
 
     void Start()
     {
         Init();
         uiImage = GameObject.Find("Canvas").transform.Find("InvincibleItemUI").GetComponent<Image>();
+        batchTime = FirstBatchTime;
     }
     void Update()
     {
