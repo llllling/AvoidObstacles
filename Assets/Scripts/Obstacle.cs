@@ -10,7 +10,7 @@ public class Obstacle : MovementSpeedUP
 
     void Start()
     {
-        InitMovement(3f, Vector2.up);
+        InitMovementSpeedUP();
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
     }
@@ -27,7 +27,7 @@ public class Obstacle : MovementSpeedUP
             return;
         }
 
-           GameManager.instance.OnPlayerDead();
+          // GameManager.instance.OnPlayerDead();
 
 
 

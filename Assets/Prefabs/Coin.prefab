@@ -157,4 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   moveDirection: {x: 0, y: 1}
+  speedUpTimeInterval: 2
+  scrollIncreaseSpeed: 1.05
+  initSpeed: 3
+  maxScrollSpeed: 8
   coinScore: 10

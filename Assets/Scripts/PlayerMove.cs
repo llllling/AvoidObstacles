@@ -38,7 +38,7 @@ public class PlayerMove : Movement2D
 
     void Update()
     {
-        if (GameManager.instance.IsGameover) return;
+        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
 
         Move();
 

@@ -4,33 +4,46 @@ using Utill;
 public class MovementSpeedUP : Movement2D
 {
     private TimeInterval interval;
-    private Constract constract;
- 
+    public float speedUpTimeInterval;
+    public float scrollIncreaseSpeed;
+    public float initSpeed;
+    public float maxScrollSpeed;
+
     void Reset()
     {
-        InitMovement(constract.initSpeed, Vector2.up);
+        speedUpTimeInterval = 2f;
+        scrollIncreaseSpeed = 1.05f;
+        initSpeed = 3f;
+        maxScrollSpeed = 8f;
+        InitMovement(initSpeed, Vector2.up);
     }
 
-    void Awake()
+    void Start()
     {
-        constract = GameManager.instance.constract;
-        interval = new(constract.speedUpTimeInterval);
+        InitMovementSpeedUP();
     }
 
     void Update()
     {
+        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+       
         MoveAndIntervalSpeedUP();
     }
 
+    public void InitMovementSpeedUP()
+    {
+        interval = new(speedUpTimeInterval);
+        InitMovement(initSpeed, Vector2.up);
+    }
     public void MoveAndIntervalSpeedUP()
     {
        
         if (interval.IsExceedTimeInterval())
         {
             interval.lastTime = Time.time;
-            if (moveSpeed >= constract.maxScrollSpeed)
+            if (moveSpeed < maxScrollSpeed)
             {
-                moveSpeed *= constract.scrollIncreaseSpeed;
+                moveSpeed *= scrollIncreaseSpeed;
             }
         }
         Move();

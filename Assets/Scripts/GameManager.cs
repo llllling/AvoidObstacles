@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public Constract constract;
     public TMP_Text scoreText;
     public GameObject gameOverObj;
 

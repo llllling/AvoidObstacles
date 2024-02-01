@@ -10,7 +10,7 @@ public class CoinSpanwer : Spanwer
 
     void Update()
     {
-        if (GameManager.instance.IsGameover) return;
+        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
 
         if (!batchInterval.IsExceedTimeInterval()) return;
 

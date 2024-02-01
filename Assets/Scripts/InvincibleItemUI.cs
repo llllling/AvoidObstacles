@@ -7,7 +7,13 @@ public class InvincibleItemUI : MonoBehaviour
     {
         spanwer = GameObject.Find("InvincibleItemSpanwer").GetComponent<InvincibleItemSpanwer>();
     }
-
+    void Update()
+    {
+        if (GameManager.instance != null && GameManager.instance.IsGameover)
+        {
+            EndItemEffect();
+        }
+    }
     public void EndItemEffect()
     {
         gameObject.SetActive(false);

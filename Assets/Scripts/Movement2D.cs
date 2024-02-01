@@ -7,7 +7,7 @@ public class Movement2D : MonoBehaviour
     private Vector2 moveDirection = Vector2.zero;
     void Update()
     {
-        if (GameManager.instance.IsGameover) return;
+        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
         Move();
     }
     protected void InitMovement(float speed, Vector2 direction)
