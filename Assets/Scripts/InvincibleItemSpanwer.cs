@@ -26,19 +26,9 @@ public class InvincibleItemSpanwer : Spanwer
     {
         if (GameManager.instance != null && GameManager.instance.IsGameover || isUsingItem) return;
 
-        if (!batchInterval.IsExceedTimeInterval()) return;
+        if (!IsEnableBatch()) return;
 
-        batchInterval.lastTime = Time.time;
-
-        batchInterval.timeInterval = GetRandomBatchTime();
-
-        prefabs[currentIndex].SetActive(true);
-        prefabs[currentIndex++].transform.position = new(Random.Range(xPosMin, xPosMax), yPos);
-        if(currentIndex == prefabs.Length)
-        {
-            currentIndex = 0;
-        }
-
+        BatchPrefab(GetRandomPositoin());
     }
 
     public void HideAllItems()

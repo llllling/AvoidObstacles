@@ -3,28 +3,33 @@ using Utill;
 
 public class ObstacleSpanwer : Spanwer
 {
+    private bool isFirstBatch = true;
+    private Vector2 initPosition;
     void Reset()
     {
-        count = 7;
+        count = 20;
         InitBatchMinMaxTime(0.8f, 1f);
+    }
+
+    void Start()
+    {
+        Init();
+        initPosition = new(Random.Range(positionMin.x, positionMax.x), -10f);
     }
 
     void Update()
     {
         if (GameManager.instance != null && GameManager.instance.IsGameover) return;
 
-        if (!batchInterval.IsExceedTimeInterval()) return;
+        if (!IsEnableBatch()) return;
 
-        batchInterval.lastTime = Time.time;
+        Vector2 position = isFirstBatch ? initPosition : GetRandomPositoin();
+        BatchPrefab(position);
 
-        batchInterval.timeInterval = GetRandomBatchTime();
-
-        prefabs[currentIndex++].transform.position = new(Random.Range(xPosMin, xPosMax), yPos);
-        if (currentIndex == prefabs.Length)
+        if (isFirstBatch)
         {
-            currentIndex = 0;
+            isFirstBatch = false;
         }
     }
-  
-  
+
 }

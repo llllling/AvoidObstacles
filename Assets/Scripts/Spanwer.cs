@@ -5,7 +5,6 @@ using Utill;
 public class Spanwer : MonoBehaviour
 {
     public GameObject prefab;
-    public Vector2 initPosition = new(0, -10f);
     [HideInInspector]
     public GameObject[] prefabs;
     [HideInInspector]
@@ -16,9 +15,8 @@ public class Spanwer : MonoBehaviour
     
     protected TimeInterval batchInterval = new();
 
-    protected float xPosMin;
-    protected float xPosMax;
-    protected readonly float yPos = -10f;
+    protected Vector2 positionMin;
+    protected Vector2 positionMax;
 
     [SerializeField]
     protected int count = 10;
@@ -27,10 +25,20 @@ public class Spanwer : MonoBehaviour
     {
         Init();
     }
+
+    void Update()
+    {
+        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+        
+        if (!IsEnableBatch()) return;
+
+        BatchPrefab(GetRandomPositoin());
+
+    }
     protected void Init()
     {
         CreateObstacles();
-        InitXPosMinMax();
+        InitPositionMinMax();
     }
 
     protected void InitBatchMinMaxTime(float min, float max)
@@ -38,36 +46,59 @@ public class Spanwer : MonoBehaviour
         batchMinTime = min;
         batchMaxTime = max;
     }
+
+    protected void BatchPrefab(Vector2 position)
+    {
+        
+        if (!prefabs[currentIndex].activeSelf)
+        {
+            prefabs[currentIndex].SetActive(true);
+        }
+
+        prefabs[currentIndex++].transform.position = position;
+        if (currentIndex == prefabs.Length)
+        {
+            currentIndex = 0;
+        }
+    }
+
+    protected bool IsEnableBatch()
+    {
+        if (!batchInterval.IsExceedTimeInterval()) return false;
+
+        batchInterval.lastTime = Time.time;
+
+        batchInterval.timeInterval = GetRandomBatchTime();
+
+        return true;
+    }
     protected float GetRandomBatchTime()
     {
         return Random.Range(batchMinTime, batchMaxTime);
     }
-    /// <summary>
-    /// 장애물, 코인이 겹치게 생성되지 않도록
-    /// 파라미터로 받은 위치값에 다른 게임 오브젝트 존재 여부를 체크해서 해당 위치의 사용 가능 여부를 반환한다.
-    /// </summary>
-    protected bool IsEnablePostion(Vector2 position)
+    
+    protected Vector2 GetRandomPositoin()
     {
-        return !Utills.CheckOverlapWithinRange(position, 2.5f);
+        return new(Random.Range(positionMin.x, positionMax.x), Random.Range(positionMin.y, positionMax.y));
     }
-
     private void CreateObstacles()
     {
     
         prefabs = new GameObject[count];
         for (int i = 0; i < count; i++)
         {
-            prefabs[i] = Instantiate(prefab, initPosition, Quaternion.identity);
+            prefabs[i] = Instantiate(prefab, GetRandomPositoin(), Quaternion.identity);
+            prefabs[i].SetActive(false);
         }
     }
 
-    private void InitXPosMinMax()
+    private void InitPositionMinMax()
     {
         Tilemap background = FindFirstObjectByType<Tilemap>();
         float offsetX = background.size.x / 2f - 0.7f;
-
-        xPosMin = -offsetX;
-        xPosMax = offsetX;
+        float offsetY = -background.size.y / 2f - 0.2f;
+        positionMin = new(-offsetX, offsetY);
+        positionMax = new(offsetX, offsetY - background.size.y);
     }
 
 

@@ -40,7 +40,6 @@ public class Obstacle : MovementSpeedUP
         rigidbody.constraints = RigidbodyConstraints2D.None;
 
         Vector2 forceDirection = new(-1f, 1f);
-        Debug.Log(playerCollision.contacts[0].point.x + " / "+ transform.position.x);
        if (playerCollision.contacts[0].point.x < transform.position.x)
         {
             forceDirection = new(1f, 1f);

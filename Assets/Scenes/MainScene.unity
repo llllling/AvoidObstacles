@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 317798492}
   - component: {fileID: 317798491}
   - component: {fileID: 317798490}
-  - component: {fileID: 317798489}
+  - component: {fileID: 317798494}
   m_Layer: 0
   m_Name: Background2
   m_TagString: Untagged
@@ -588,20 +588,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1919596370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &317798489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317798487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f090a10e03a5be4d990156f4e58febb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  moveDirection: {x: 0, y: 1}
 --- !u!114 &317798490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1370,6 +1356,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &317798494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317798487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c156dae13183448a22eff3455a5a93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  moveDirection: {x: 0, y: 1}
+  speedUpTimeInterval: 2
+  scrollIncreaseSpeed: 1.05
+  initSpeed: 3
+  maxScrollSpeed: 8
 --- !u!1 &387603954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2318,11 +2322,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 411609354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f090a10e03a5be4d990156f4e58febb, type: 3}
+  m_Script: {fileID: 11500000, guid: 61c156dae13183448a22eff3455a5a93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
   moveDirection: {x: 0, y: 1}
+  speedUpTimeInterval: 2
+  scrollIncreaseSpeed: 1.05
+  initSpeed: 3
+  maxScrollSpeed: 8
 --- !u!1 &738124889
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,7 +2361,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4031204725152711555, guid: 79153d6ecb43e5643a66fa95377b43d2, type: 3}
-  initPosition: {x: 0, y: -10}
   prefabs: []
   currentIndex: 0
   batchMinTime: 2
@@ -2620,12 +2627,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2020774629840748719, guid: a26151a257601da40ad4f7ad1ee9bd16, type: 3}
-  initPosition: {x: 0, y: -10}
   prefabs: []
   currentIndex: 0
   batchMinTime: 0.8
   batchMaxTime: 1
-  count: 7
+  count: 10
 --- !u!4 &952689542
 Transform:
   m_ObjectHideFlags: 0
@@ -2870,12 +2876,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 7721162994172841558, guid: 486ca2c565ad81743818ff9a0cd8094b, type: 3}
-  initPosition: {x: 0, y: -10}
   prefabs: []
   currentIndex: 0
   batchMinTime: 0.5
   batchMaxTime: 1
-  count: 10
+  count: 7
 --- !u!4 &1024295038
 Transform:
   m_ObjectHideFlags: 0
@@ -3143,7 +3148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401b9aac9af54a34facd4f18dc3704dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  constract: {fileID: 11400000, guid: 679b98f276753fc44ae6dbb883fda3d2, type: 2}
   scoreText: {fileID: 387603956}
   gameOverObj: {fileID: 965290314}
 --- !u!1 &1919596368
