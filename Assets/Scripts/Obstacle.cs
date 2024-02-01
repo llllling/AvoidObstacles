@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Obstacle : MovementSpeedUP
 {
+    public AudioClip collisionSound;
+    private AudioSource audioSource;
+
     private Animator animator;
     private new Rigidbody2D rigidbody;
     private const float forceMagnitude = 15f;
@@ -11,6 +14,7 @@ public class Obstacle : MovementSpeedUP
     void Start()
     {
         InitMovementSpeedUP();
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
     }
@@ -18,16 +22,18 @@ public class Obstacle : MovementSpeedUP
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag(Player.playerTag)) return;
-
+ 
 
         if (Player.status == PlayerStatus.INVINCIBLE)
         {
-
             StartCoroutine(BouncesOff(collision));
             return;
+        } else
+        {
+            audioSource.PlayOneShot(collisionSound);
+          // GameManager.instance.OnPlayerDead();
         }
 
-          // GameManager.instance.OnPlayerDead();
 
 
 

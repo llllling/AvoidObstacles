@@ -3,12 +3,12 @@ using Utill;
 
 public class MovementSpeedUP : Movement2D
 {
-    private TimeInterval interval;
     public float speedUpTimeInterval;
     public float scrollIncreaseSpeed;
     public float initSpeed;
     public float maxScrollSpeed;
 
+    private TimeInterval interval;
     void Reset()
     {
         speedUpTimeInterval = 2f;
@@ -16,11 +16,6 @@ public class MovementSpeedUP : Movement2D
         initSpeed = 3f;
         maxScrollSpeed = 8f;
         InitMovement(initSpeed, Vector2.up);
-    }
-
-    void Start()
-    {
-        InitMovementSpeedUP();
     }
 
     void Update()
