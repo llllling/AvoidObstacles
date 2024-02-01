@@ -4,7 +4,7 @@ public class Coin : MovementSpeedUP
 {
     [SerializeField]
     private int coinScore = 10;
-    
+
     void OnTriggerEnter2D(Collider2D collision)
     {
 

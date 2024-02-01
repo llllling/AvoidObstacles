@@ -23,7 +23,7 @@ public class Obstacle : MovementSpeedUP
         if (Player.status == PlayerStatus.INVINCIBLE)
         {
 
-            StartCoroutine(BouncesOff());
+            StartCoroutine(BouncesOff(collision));
             return;
         }
 
@@ -33,16 +33,18 @@ public class Obstacle : MovementSpeedUP
 
     }
 
-    private IEnumerator BouncesOff()
+    private IEnumerator BouncesOff(Collision2D playerCollision)
     {
         animator.enabled = true;
 
         rigidbody.constraints = RigidbodyConstraints2D.None;
 
-        Vector2 forceDirection = new(1f, 1f);
-        if (transform.position.x < 0)
+        Vector2 forceDirection = new(-1f, 1f);
+        Debug.Log(playerCollision.contacts[0].point.x + " / "+ transform.position.x);
+       if (playerCollision.contacts[0].point.x < transform.position.x)
         {
-            forceDirection = new(-1f, 1f);
+            Debug.Log("¿À¸¥ÂÊ");
+            forceDirection = new(1f, 1f);
         }
         rigidbody.AddForce(forceDirection.normalized * forceMagnitude, ForceMode2D.Impulse);
 
