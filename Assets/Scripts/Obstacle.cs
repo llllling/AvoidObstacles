@@ -43,7 +43,6 @@ public class Obstacle : MovementSpeedUP
         Debug.Log(playerCollision.contacts[0].point.x + " / "+ transform.position.x);
        if (playerCollision.contacts[0].point.x < transform.position.x)
         {
-            Debug.Log("¿À¸¥ÂÊ");
             forceDirection = new(1f, 1f);
         }
         rigidbody.AddForce(forceDirection.normalized * forceMagnitude, ForceMode2D.Impulse);

@@ -133,47 +133,62 @@ Unity 2022.3.14f1
 * 배경, 장애물, 아이템, 코인은 시간이 지날수록 스크롤 속도가 점점 빨라지는 공통 기능이 있음. => Movement2D를 상속받은 MovementSpeedUP 클래스 생성
     * MovementSpeedUP.cs
      ```c#
-    public class MovementSpeedUP : Movement2D
+   public class MovementSpeedUP : Movement2D
     {
-        private readonly TimeInterval interval = new(Constract.speedUpTimeInterval);
+        private TimeInterval interval;
+        public float speedUpTimeInterval;
+        public float scrollIncreaseSpeed;
+        public float initSpeed;
+        public float maxScrollSpeed;
+
+        void Reset()
+        {
+            speedUpTimeInterval = 2f;
+            scrollIncreaseSpeed = 1.05f;
+            initSpeed = 3f;
+            maxScrollSpeed = 8f;
+            InitMovement(initSpeed, Vector2.up);
+        }
+
+        void Start()
+        {
+            InitMovementSpeedUP();
+        }
 
         void Update()
         {
+            if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+       
             MoveAndIntervalSpeedUP();
         }
 
+        public void InitMovementSpeedUP()
+        {
+            interval = new(speedUpTimeInterval);
+            InitMovement(initSpeed, Vector2.up);
+        }
         public void MoveAndIntervalSpeedUP()
         {
+       
             if (interval.IsExceedTimeInterval())
             {
                 interval.lastTime = Time.time;
-                moveSpeed *= Constract.scrollIncreaseSpeed;
+                if (moveSpeed < maxScrollSpeed)
+                {
+                    moveSpeed *= scrollIncreaseSpeed;
+                }
             }
             Move();
         }
     }
     ```
-    * BackgrooundScroll.cs : 배경
-    ```c#
-        public class BackgroundScroll : MovementSpeedUP
-        {
-            void Reset()
-            {
-                InitMovement(3f, Vector2.up);
-            }
-        }
 
-    ```
     * Coin.cs
     ```c#
      public class Coin : MovementSpeedUP
     {
         [SerializeField]
         private int coinScore = 10;
-        void Reset()
-        {
-            InitMovement(3f, Vector2.up);
-        }
 
         void OnTriggerEnter2D(Collider2D collision)
         {
