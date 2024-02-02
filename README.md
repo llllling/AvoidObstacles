@@ -248,3 +248,68 @@ Unity 2022.3.14f1
     }
 
     ```
+* 배경음/효과음 소리관련 설정은 SoundManager 컴포넌트를 만들어서 한 곳에서 관리하도록
+    * SoundControll.cs
+    ```c#
+    using UnityEngine;
+
+    public class SoundControll : MonoBehaviour
+    {
+        [HideInInspector]
+        public bool isSoundOn = true;
+        public static SoundControll instance;
+
+        public AudioClip button;
+        public AudioClip die;
+        public AudioClip addScore;
+        public AudioClip obstacleWhenInvincible;
+        public AudioClip invincibleItem;
+        [HideInInspector]
+        public AudioSource audioSource;
+
+        void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+
+                audioSource = GetComponent<AudioSource>();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+        }
+
+
+        void OnEnable()
+        {
+            if (audioSource == null || !audioSource.isActiveAndEnabled) return;
+            audioSource.Play();
+        }
+      
+        public void PlayDie()
+        {
+            if (audioSource == null || !audioSource.isActiveAndEnabled) return;
+            audioSource.PlayOneShot(die);
+        }
+        //.. 코드생략
+       
+    }
+
+    ```
+    * GameManager에서 사용하는 예시
+    ```c#
+        public void AddScore(int score)
+        {
+            SoundControll.instance.PlayAddScore();
+
+            Score += score;
+            if (scoreText != null)
+            {
+                scoreText.text = Score.ToString();
+            }
+        }
+    ```
