@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Obstacle : MovementSpeedUP
 {
-    public AudioClip collisionSound;
+    public AudioClip collisionWhenInvincible;
     private AudioSource audioSource;
 
     private Animator animator;
@@ -26,11 +26,11 @@ public class Obstacle : MovementSpeedUP
 
         if (Player.status == PlayerStatus.INVINCIBLE)
         {
+            audioSource.PlayOneShot(collisionWhenInvincible);
             StartCoroutine(BouncesOff(collision));
             return;
         } else
         {
-            audioSource.PlayOneShot(collisionSound);
           // GameManager.instance.OnPlayerDead();
         }
 

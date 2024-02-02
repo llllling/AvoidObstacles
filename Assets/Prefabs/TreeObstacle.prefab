@@ -142,7 +142,7 @@ MonoBehaviour:
   scrollIncreaseSpeed: 1.05
   initSpeed: 3
   maxScrollSpeed: 8
-  collisionSound: {fileID: 8300000, guid: 7e9ee6dc04a5d40d1a5dfc4beb9865e7, type: 3}
+  collisionWhenInvincible: {fileID: 8300000, guid: c230389cdba1a4d47bda71c4d0e2b6f9, type: 3}
 --- !u!95 &7486889796542393681
 Animator:
   serializedVersion: 5

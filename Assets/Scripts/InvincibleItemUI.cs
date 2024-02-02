@@ -2,17 +2,27 @@ using UnityEngine;
 
 public class InvincibleItemUI : MonoBehaviour
 {
+    public AudioClip itemSound;
+    private AudioSource audioSource;
+
     private InvincibleItemSpanwer spanwer;
-    private void Start()
+    void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         spanwer = GameObject.Find("InvincibleItemSpanwer").GetComponent<InvincibleItemSpanwer>();
+    }
+    void OnEnable()
+    {
+        audioSource.PlayOneShot(itemSound);
     }
     void Update()
     {
-        if (GameManager.instance != null && GameManager.instance.IsGameover)
+        if (GameManager.instance == null && GameManager.instance.IsGameover)
         {
             EndItemEffect();
+            return;
         }
+
     }
     public void EndItemEffect()
     {
@@ -20,4 +30,5 @@ public class InvincibleItemUI : MonoBehaviour
         spanwer.isUsingItem = false;
         Player.status = PlayerStatus.NONE;
     }
+
 }

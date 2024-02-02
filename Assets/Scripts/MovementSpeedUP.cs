@@ -18,6 +18,10 @@ public class MovementSpeedUP : Movement2D
         InitMovement(initSpeed, Vector2.up);
     }
 
+    private void Start()
+    {
+        InitMovementSpeedUP();
+    }
     void Update()
     {
         if (GameManager.instance != null && GameManager.instance.IsGameover) return;

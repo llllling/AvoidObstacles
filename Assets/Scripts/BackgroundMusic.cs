@@ -8,7 +8,7 @@ public class BackgroundMusic : MonoBehaviour
     {
 
         audioSource = GetComponent<AudioSource>();
-        if (audioSource != null)
+        if (audioSource != null && audioSource.isActiveAndEnabled)
         {
             audioSource.Play();
         }
