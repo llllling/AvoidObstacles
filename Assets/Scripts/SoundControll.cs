@@ -34,7 +34,7 @@ public class SoundControll : MonoBehaviour
     void OnEnable()
     {
         if (audioSource == null || !audioSource.isActiveAndEnabled) return;
-        audioSource.Play();
+     //   audioSource.Play();
     }
     public void PlayObstacleWhenInvincible()
     {
