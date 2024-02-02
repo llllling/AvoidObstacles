@@ -4,15 +4,11 @@ using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
+    private bool isOpenInfo = false;
     public void OnStart()
     {
         SoundControll.instance.PlayButton();
         SceneManager.LoadScene("MainScene");
-    }
-
-    public void OnClose()
-    {
-        SoundControll.instance.PlayButton();
     }
 
     public void OnSound()
@@ -21,13 +17,21 @@ public class ButtonController : MonoBehaviour
         SoundControll.instance.isSoundOn = isSoundOn;
         SoundControll.instance.gameObject.SetActive(isSoundOn);
 
-        Image image = GetComponent<Image>();
+        Image image = GameObject.Find("SoundButton").GetComponent<Image>();
         if (isSoundOn)
         {
             image.color = Color.white;
-        } else
+        }
+        else
         {
             image.color = Color.gray;
         }
+    }
+
+    public void OnInfomation(bool isOpen)
+    {
+        isOpenInfo = isOpen;
+
+        GameObject.FindObjectOfType<Canvas>().transform.Find("Infomation").gameObject.SetActive(isOpenInfo);
     }
 }

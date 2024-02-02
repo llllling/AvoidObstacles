@@ -42,7 +42,7 @@ public class MovementSpeedUP : Movement2D
             interval.lastTime = Time.time;
             if (moveSpeed < maxScrollSpeed)
             {
-                moveSpeed *= scrollIncreaseSpeed;
+              //  moveSpeed *= scrollIncreaseSpeed;
             }
         }
         Move();
