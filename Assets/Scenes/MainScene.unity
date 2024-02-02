@@ -1518,10 +1518,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   moveDirection: {x: 0, y: 1}
-  speedUpTimeInterval: 2
+  speedUpTimeInterval: 2.3
   scrollIncreaseSpeed: 1.05
   initSpeed: 3
   maxScrollSpeed: 8
+  spanwerName: 
 --- !u!1 &387603954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,10 +2476,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   moveDirection: {x: 0, y: 1}
-  speedUpTimeInterval: 2
+  speedUpTimeInterval: 2.3
   scrollIncreaseSpeed: 1.05
   initSpeed: 3
   maxScrollSpeed: 8
+  spanwerName: 
 --- !u!1 &738124889
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,12 +2513,12 @@ MonoBehaviour:
   prefab: {fileID: 4031204725152711555, guid: 79153d6ecb43e5643a66fa95377b43d2, type: 3}
   prefabs: []
   currentIndex: 0
-  batchMinTime: 2
-  batchMaxTime: 3
-  count: 3
+  batchMinTime: 10
+  batchMaxTime: 15
+  count: 1
   isUsingItem: 0
   uiImage: {fileID: 0}
-  FirstBatchTime: 0
+  FirstBatchTime: 8
 --- !u!4 &738124891
 Transform:
   m_ObjectHideFlags: 0
@@ -2780,7 +2782,7 @@ MonoBehaviour:
   currentIndex: 0
   batchMinTime: 0.8
   batchMaxTime: 1
-  count: 20
+  count: 7
 --- !u!4 &952689542
 Transform:
   m_ObjectHideFlags: 0
@@ -3027,9 +3029,9 @@ MonoBehaviour:
   prefab: {fileID: 7721162994172841558, guid: 486ca2c565ad81743818ff9a0cd8094b, type: 3}
   prefabs: []
   currentIndex: 0
-  batchMinTime: 1
-  batchMaxTime: 1.5
-  count: 10
+  batchMinTime: 2
+  batchMaxTime: 5
+  count: 5
 --- !u!4 &1024295038
 Transform:
   m_ObjectHideFlags: 0

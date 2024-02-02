@@ -7,7 +7,7 @@ public class ObstacleSpanwer : Spanwer
     private Vector2 initPosition;
     void Reset()
     {
-        count = 20;
+        count = 7;
         InitBatchMinMaxTime(0.8f, 1f);
     }
 

@@ -11,8 +11,9 @@ public class InvincibleItemSpanwer : Spanwer
     public float FirstBatchTime;
     private void Reset()
     {
-        count = 3;
-        InitBatchMinMaxTime(2f, 3f);
+        count = 1;
+        FirstBatchTime = 8f;
+        InitBatchMinMaxTime(10f, 15f);
     }
    
 

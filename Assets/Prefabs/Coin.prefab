@@ -161,4 +161,5 @@ MonoBehaviour:
   scrollIncreaseSpeed: 1.05
   initSpeed: 3
   maxScrollSpeed: 8
+  spanwerName: CoinSpanwer
   coinScore: 10

@@ -7,6 +7,8 @@ public class MovementSpeedUP : Movement2D
     public float scrollIncreaseSpeed;
     public float initSpeed;
     public float maxScrollSpeed;
+    public string spanwerName;
+    private Spanwer spanwer;
 
     private TimeInterval interval;
     void Reset()
@@ -33,6 +35,10 @@ public class MovementSpeedUP : Movement2D
     {
         interval = new(speedUpTimeInterval);
         InitMovement(initSpeed, Vector2.up);
+        if (spanwerName != null && spanwerName != "")
+        {
+            spanwer = GameObject.Find(spanwerName).GetComponent<Spanwer>();
+        }
     }
     public void MoveAndIntervalSpeedUP()
     {
@@ -42,7 +48,12 @@ public class MovementSpeedUP : Movement2D
             interval.lastTime = Time.time;
             if (moveSpeed < maxScrollSpeed)
             {
-              //  moveSpeed *= scrollIncreaseSpeed;
+                if (spanwer != null)
+                {
+                    spanwer.batchMaxTime = (float)(spanwer.batchMaxTime * 0.995);
+                    spanwer.batchMinTime = (float)(spanwer.batchMinTime * 0.995);
+                }
+                moveSpeed *= scrollIncreaseSpeed;
             }
         }
         Move();
