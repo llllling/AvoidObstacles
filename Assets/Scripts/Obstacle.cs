@@ -1,11 +1,9 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Obstacle : MovementSpeedUP
 {
-    public AudioClip collisionWhenInvincible;
-    private AudioSource audioSource;
-
     private Animator animator;
     private new Rigidbody2D rigidbody;
     private const float forceMagnitude = 15f;
@@ -14,7 +12,6 @@ public class Obstacle : MovementSpeedUP
     void Start()
     {
         InitMovementSpeedUP();
-        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
     }
@@ -26,7 +23,7 @@ public class Obstacle : MovementSpeedUP
 
         if (Player.status == PlayerStatus.INVINCIBLE)
         {
-            audioSource.PlayOneShot(collisionWhenInvincible);
+            SoundControll.instance.PlayObstacleWhenInvincible();
             StartCoroutine(BouncesOff(collision));
             return;
         } else

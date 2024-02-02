@@ -2,18 +2,15 @@ using UnityEngine;
 
 public class InvincibleItemUI : MonoBehaviour
 {
-    public AudioClip itemSound;
-    private AudioSource audioSource;
 
     private InvincibleItemSpanwer spanwer;
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
         spanwer = GameObject.Find("InvincibleItemSpanwer").GetComponent<InvincibleItemSpanwer>();
     }
     void OnEnable()
     {
-        audioSource.PlayOneShot(itemSound);
+        SoundControll.instance.PlayInvincibleItem();
     }
     void Update()
     {

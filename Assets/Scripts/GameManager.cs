@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,10 +8,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreText;
     public GameObject gameOverObj;
 
-    public AudioClip buttonSound;
-    public AudioClip dieSound;
-    public AudioClip addScoreSound;
-    private AudioSource audioSource;
+
 
     public bool IsGameover { get; private set; } = false;
     public int Score { get; private set; } = 0;
@@ -21,6 +17,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         } else
         {
             Debug.LogWarning("씬에 두 개 이상의 게임 매니저가 존재합니다.");
@@ -29,14 +26,10 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     public void OnPlayerDead()
     {
-        audioSource.PlayOneShot(dieSound);
+        SoundControll.instance.PlayDie();
 
         scoreText.gameObject.SetActive(false);
 
@@ -50,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int score)
     {
-        audioSource.PlayOneShot(addScoreSound);
+        SoundControll.instance.PlayAddScore();
 
         Score += score;
         if (scoreText != null)
@@ -60,13 +53,13 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnRestart() {
-        audioSource.PlayOneShot(buttonSound);
+        SoundControll.instance.PlayButton();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void OnLoadIntro()
     {
-        audioSource.PlayOneShot(buttonSound);
+        SoundControll.instance.PlayButton();
 
         SceneManager.LoadScene("IntroScene");
     }
