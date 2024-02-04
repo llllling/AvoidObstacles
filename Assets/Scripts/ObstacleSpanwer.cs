@@ -1,5 +1,4 @@
 using UnityEngine;
-using Utill;
 
 public class ObstacleSpanwer : Spanwer
 {

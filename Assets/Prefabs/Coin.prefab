@@ -155,11 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdcca534ad4e9e14f86c6357cb1c4d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
   moveDirection: {x: 0, y: 1}
-  speedUpTimeInterval: 2
-  scrollIncreaseSpeed: 1.05
-  initSpeed: 3
-  maxScrollSpeed: 8
-  spanwerName: CoinSpanwer
+  spawerObject: {fileID: 0}
   coinScore: 10

@@ -88,6 +88,7 @@ public class Spanwer : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             prefabs[i] = Instantiate(prefab, GetRandomPositoin(), Quaternion.identity);
+            prefabs[i].GetComponent<MovementSpeedUP>().spanwer = this;
             prefabs[i].SetActive(false);
         }
     }
@@ -102,5 +103,13 @@ public class Spanwer : MonoBehaviour
         positionMax = new(offsetX, offsetY - background.size.y);
     }
 
+    /// <summary>
+    /// 게임 속도가 점점 증가할 때 배치 시간도 같이 감소해주기 위한 함수
+    /// </summary>
+    public void DecreaseBatchTime(float decreaseOffset)
+    {
+        batchMinTime -= decreaseOffset;
+        batchMaxTime -= decreaseOffset;
+    }
 
 }

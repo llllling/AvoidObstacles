@@ -135,13 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df6e5dd776bc064c92d38e77e659b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
   moveDirection: {x: 0, y: 1}
-  speedUpTimeInterval: 2
-  scrollIncreaseSpeed: 1.05
-  initSpeed: 3
-  maxScrollSpeed: 8
-  spanwerName: ObstacleSpanwer
+  spawerObject: {fileID: 0}
 --- !u!95 &7486889796542393681
 Animator:
   serializedVersion: 5

@@ -11,11 +11,16 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 현재 게임 스크롤 속도
     ///</summary>
-    public float currentSpeed = 3f;
+    [HideInInspector]
+    public float currentSpeed;
+    /// <summary>
+    /// 최초 게임 스크롤 속도
+    ///</summary>
+    public float initSpeed = 3f;
     /// <summary>
     /// 스크롤 증가 속도
     ///</summary>
-    public float scrollIncreaseSpeed = 1.05f;
+    public float increaseSpeed = 0.05f;
     /// <summary>
     /// 계속 증가를 방지하기 위한 최대 스크롤 속도
     /// </summary>
@@ -23,10 +28,18 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 스크롤 증가 인터벌
     /// </summary>
-    public float speedUpTimeInterval = 2f;
+    public float intervalTimeForSpeed = 2f;
 
     public bool IsGameover { get; private set; } = false;
     public int Score { get; private set; } = 0;
+
+    public bool IsEnableScrollUp
+    {
+        get
+        {
+            return currentSpeed <= maxScrollSpeed;
+        }
+    }
     void Awake()
     {
         if (instance == null)
@@ -42,7 +55,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-
+    void Start()
+    {
+        currentSpeed = initSpeed;
+    }
     public void OnPlayerDead()
     {
         SoundControll.instance.PlayDie();
@@ -82,10 +98,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-
     public void ScrollSpeedUp()
     {
-        if (currentSpeed >= maxScrollSpeed) return;
-        currentSpeed *= scrollIncreaseSpeed;
+        currentSpeed += increaseSpeed;
     }
 }

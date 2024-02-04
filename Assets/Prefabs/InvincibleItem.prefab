@@ -133,10 +133,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4c965965350054d82f6989de5e9d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
   moveDirection: {x: 0, y: 1}
-  speedUpTimeInterval: 2
-  scrollIncreaseSpeed: 1.05
-  initSpeed: 3
-  maxScrollSpeed: 8
-  spanwerName: InvincibleItemSpanwer
+  spawerObject: {fileID: 0}
