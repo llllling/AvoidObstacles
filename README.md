@@ -39,12 +39,12 @@ Unity 2022.3.14f1
 5. 플레이어 플레이어 애니메이션(대기, 달리기, 사망) 생성
 6. 점수 UI
 7. 인트로 씬, 게임 오버 씬
-    * TextMesh,Font 제작 및 Material 생성
-    * 인트로 씬에 게임 플레이어 이미지 추가 및 점프하는 애니메이션 생성
+   - TextMesh,Font 제작 및 Material 생성
+   - 인트로 씬에 게임 플레이어 이미지 추가 및 점프하는 애니메이션 생성
 8. 씬 전환 설정
 9. 장애물, 코인 애니메이션 생성
-    * 장애물 회전 애니메이션 : 플레이어가 아이템을 먹을 경우 무적 상태이므로 장애물이 날아갈 때 실행
-    * 코인 회전 애니메이션
+   - 장애물 회전 애니메이션 : 플레이어가 아이템을 먹을 경우 무적 상태이므로 장애물이 날아갈 때 실행
+   - 코인 회전 애니메이션
 10. 무적 아이템(포션) 추가
     - 무적 아이템 오브젝트 및 생성기
     - 아이템 UI(쿨타임 표시)
@@ -55,261 +55,197 @@ Unity 2022.3.14f1
 12. BGM, 게임 효과음 추가
 13. 게임 설명창,버튼 및 배경음/효과음 on,off버튼 추가
 
-
 ## 프로젝트하면서 고민한 점
 
 - 플레이어 이동 시 Transform vs Rigidbody : 물리적 시뮬레이션(중력의 영향을 받는 등)이 필요하거나 다른 Rigidbody와의 상호작용이 아니고, 간단한 이동이나 위치 변환이므로 Transform을 사용
 
-* 배경,플레이어, 장애물 모두 이동에 관해 비슷한 코드를 작성함 => <span style="background-color: skyblue; color: black;">이동에 관한 클래스를 만든 후 이동을 구현하는 스크립트들을 모두 이 클래스를 상속하도록 함.</span>
+* 배경/장애물/아이템/코인 모두 위쪽 방향으로 점점 빠르게 스크롤되는 기능이 있음 => <span style="background-color: skyblue; color: black;">이 기능에 관한 클래스를 만든 후 모두 이 클래스를 상속하도록 함.</span>
 
-  - Movement2D class
+  - MovementSpeedUP.cs
 
   ```c#
-    public class Movement2D : MonoBehaviour
-    {
-        [SerializeField]
-        private float moveSpeed;
-        [SerializeField]
-        private Vector2 moveDirection = Vector2.zero;
+      public class MovementSpeedUP : MonoBehaviour
+      {
+          [SerializeField]
+          private Vector2 moveDirection;
+          private GameManager gameManager;
+          private TimeInterval interval;
 
-        void Update()
-        {
-            Move();
-        }
+          private void Start()
+          {
+              InitMovementSpeedUP();
+          }
+          void Update()
+          {
+              if (GameManager.instance != null && GameManager.instance.IsGameover) return;
 
-        public void Move()
-        {
-            transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * moveDirection;
-        }
+              MoveAndIntervalSpeedUP();
+          }
 
-        public void InitMovement(float initSpeed, Vector2 initDirection)
-        {
-            moveSpeed = initSpeed;
-            moveDirection = initDirection;
-        }
+          protected void InitMovementSpeedUP()
+          {
+              gameManager = GameManager.instance;
+              interval = new(gameManager.speedUpTimeInterval);
 
-        // ...코드 생략
-    }
+          }
+          protected void MoveAndIntervalSpeedUP()
+          {
+
+              if (interval.IsExceedTimeInterval())
+              {
+                  interval.lastTime = Time.time;
+
+                  gameManager.ScrollSpeedUp();
+
+              }
+              Move();
+          }
+
+          protected void Move()
+          {
+              transform.position = (Vector2)transform.position + gameManager.currentSpeed * Time.deltaTime * moveDirection;
+          }
+      }
 
   ```
 
-  - 플레이어 움직임
-    - PlayerMove클래스는 Update함수에서 수행하는 동작이 있어서 Movement2D Move() 함수를 호출해주어 움직이도록 구현
-    - 자식 클래스에서 Update()가 있는 경우 부모 클래스의 Update()는 호출되지 않는다.
+  - Coin.cs
 
   ```c#
-   class PlayerMove : Movement2D
+   public class Coin : MovementSpeedUP
   {
-      //..코드생략
+      [SerializeField]
+      private int coinScore = 10;
 
-      void Update()
+      void OnTriggerEnter2D(Collider2D collision)
       {
-          Move();
 
-          if (!IsStartPosition) { return; }
-  #if UNITY_EDITOR || UNITY_STANDALONE
-          if (Input.GetMouseButtonDown(0))
-          {
-              ToggleDirection();
-          }
-
-  #endif
-
-  #if UNITY_ANDROID || UNITY_IOS
-          if (Input.touchCount > 0)
-          {
-              Touch touch = Input.GetTouch(0);
-              if (touch.phase == TouchPhase.Began)
-              {
-                  ToggleDirection();
-              }
-          }
-  #endif
-
+          if (!collision.CompareTag(Player.playerTag)) return;
+          gameObject.SetActive(false);
+          GameManager.instance.AddScore(coinScore);
       }
-      //..코드생략
   }
   ```
-* 배경, 장애물, 아이템, 코인은 시간이 지날수록 스크롤 속도가 점점 빨라지는 공통 기능이 있음. => Movement2D를 상속받은 MovementSpeedUP 클래스 생성
-    * MovementSpeedUP.cs
-     ```c#
-   public class MovementSpeedUP : Movement2D
-    {
-        private TimeInterval interval;
-        public float speedUpTimeInterval;
-        public float scrollIncreaseSpeed;
-        public float initSpeed;
-        public float maxScrollSpeed;
 
-        void Reset()
-        {
-            speedUpTimeInterval = 2f;
-            scrollIncreaseSpeed = 1.05f;
-            initSpeed = 3f;
-            maxScrollSpeed = 8f;
-            InitMovement(initSpeed, Vector2.up);
-        }
-
-        void Start()
-        {
-            InitMovementSpeedUP();
-        }
-
-        void Update()
-        {
-            if (GameManager.instance != null && GameManager.instance.IsGameover) return;
-       
-            MoveAndIntervalSpeedUP();
-        }
-
-        public void InitMovementSpeedUP()
-        {
-            interval = new(speedUpTimeInterval);
-            InitMovement(initSpeed, Vector2.up);
-        }
-        public void MoveAndIntervalSpeedUP()
-        {
-       
-            if (interval.IsExceedTimeInterval())
-            {
-                interval.lastTime = Time.time;
-                if (moveSpeed < maxScrollSpeed)
-                {
-                    moveSpeed *= scrollIncreaseSpeed;
-                }
-            }
-            Move();
-        }
-    }
-    ```
-
-    * Coin.cs
-    ```c#
-     public class Coin : MovementSpeedUP
-    {
-        [SerializeField]
-        private int coinScore = 10;
-
-        void OnTriggerEnter2D(Collider2D collision)
-        {
-
-            if (!collision.CompareTag(Player.playerTag)) return;
-            gameObject.SetActive(false);
-            GameManager.instance.AddScore(coinScore);
-        }
-    }
-   ```
-   
 * 현재는 아이템이 하나 이지만 나중에 여러개일 경우를 고려하여 Item 추상 클래스를 생성하여 상속받아 사용하도록 구현
-    * Item.cs
-        * 공통 기능 구현 
-            * 충돌 이벤트가 일어났을 때 Player인지 검사
-            * 아이템 충돌 시 사라지도록
-        * 아이템 별 기능은 자식 클래스가 구현하도록 Use 추상 메서드 선언 및 OnTriggerEnter2D()에서 Use() 호출
-    ```c#
-    public enum ItemType
-    {
-        Invincible
-    }
-    public abstract class Item : Movement2D
-    {
-        public abstract void Use(); //추상 메서드
 
-        void Reset()
-        {
-            InitMovement(3f, Vector2.up);
-        }
+  - Item.cs
+    - 공통 기능 구현
+      - 충돌 이벤트가 일어났을 때 Player인지 검사
+      - 아이템 충돌 시 사라지도록
+    - 아이템 별 기능은 자식 클래스가 구현하도록 Use 추상 메서드 선언 및 OnTriggerEnter2D()에서 Use() 호출
 
-        void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (!collision.CompareTag(Player.playerTag)) return;
-            gameObject.SetActive(false);
-       
-            Use(); //자식이 구현한 추상 메서드 호출
-        }
+  ```c#
+  public enum ItemType
+  {
+      Invincible
+  }
+  public abstract class Item : MovementSpeedUP
+  {
+      public abstract void Use(); //추상 메서드
 
-    }
+      void Reset()
+      {
+          InitMovement(3f, Vector2.up);
+      }
+
+      void OnTriggerEnter2D(Collider2D collision)
+      {
+          if (!collision.CompareTag(Player.playerTag)) return;
+          gameObject.SetActive(false);
+
+          Use(); //자식이 구현한 추상 메서드 호출
+      }
+
+  }
 
 
-    ```
-    * InvincibleItem.cs
-    ```c#
-    public class InvincibleItem : Item
-    {
-        public override void Use()
-        {
-            InvincibleItemSpanwer spanwer = GameObject.Find("InvincibleItemSpanwer").GetComponent<InvincibleItemSpanwer>();
-            spanwer.uiImage.gameObject.SetActive(true);
-            spanwer.isUsingItem = true;
-            spanwer.HideAllItems();
+  ```
 
-            Player.status = PlayerStatus.INVINCIBLE;
-        }
-    }
+  - InvincibleItem.cs
 
-    ```
+  ```c#
+  public class InvincibleItem : Item
+  {
+      public override void Use()
+      {
+          InvincibleItemSpanwer spanwer = GameObject.Find("InvincibleItemSpanwer").GetComponent<InvincibleItemSpanwer>();
+          spanwer.uiImage.gameObject.SetActive(true);
+          spanwer.isUsingItem = true;
+          spanwer.HideAllItems();
+
+          Player.status = PlayerStatus.INVINCIBLE;
+      }
+  }
+
+  ```
+
 * 배경음/효과음 소리관련 설정은 SoundManager 컴포넌트를 만들어서 한 곳에서 관리하도록
-    * SoundControll.cs
-    ```c#
-    using UnityEngine;
 
-    public class SoundControll : MonoBehaviour
-    {
-        [HideInInspector]
-        public bool isSoundOn = true;
-        public static SoundControll instance;
+  - SoundControll.cs
 
-        public AudioClip button;
-        public AudioClip die;
-        public AudioClip addScore;
-        public AudioClip obstacleWhenInvincible;
-        public AudioClip invincibleItem;
-        [HideInInspector]
-        public AudioSource audioSource;
+  ```c#
+  using UnityEngine;
 
-        void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
+  public class SoundControll : MonoBehaviour
+  {
+      [HideInInspector]
+      public bool isSoundOn = true;
+      public static SoundControll instance;
 
-                audioSource = GetComponent<AudioSource>();
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+      public AudioClip button;
+      public AudioClip die;
+      public AudioClip addScore;
+      public AudioClip obstacleWhenInvincible;
+      public AudioClip invincibleItem;
+      [HideInInspector]
+      public AudioSource audioSource;
 
-        }
+      void Awake()
+      {
+          if (instance == null)
+          {
+              instance = this;
+              DontDestroyOnLoad(gameObject);
+
+              audioSource = GetComponent<AudioSource>();
+          }
+          else
+          {
+              Destroy(gameObject);
+          }
+
+      }
 
 
-        void OnEnable()
-        {
-            if (audioSource == null || !audioSource.isActiveAndEnabled) return;
-            audioSource.Play();
-        }
-      
-        public void PlayDie()
-        {
-            if (audioSource == null || !audioSource.isActiveAndEnabled) return;
-            audioSource.PlayOneShot(die);
-        }
-        //.. 코드생략
-       
-    }
+      void OnEnable()
+      {
+          if (audioSource == null || !audioSource.isActiveAndEnabled) return;
+          audioSource.Play();
+      }
 
-    ```
-    * GameManager에서 사용하는 예시
-    ```c#
-        public void AddScore(int score)
-        {
-            SoundControll.instance.PlayAddScore();
+      public void PlayDie()
+      {
+          if (audioSource == null || !audioSource.isActiveAndEnabled) return;
+          audioSource.PlayOneShot(die);
+      }
+      //.. 코드생략
 
-            Score += score;
-            if (scoreText != null)
-            {
-                scoreText.text = Score.ToString();
-            }
-        }
-    ```
+  }
+
+  ```
+
+  - GameManager에서 사용하는 예시
+
+  ```c#
+      public void AddScore(int score)
+      {
+          SoundControll.instance.PlayAddScore();
+
+          Score += score;
+          if (scoreText != null)
+          {
+              scoreText.text = Score.ToString();
+          }
+      }
+  ```

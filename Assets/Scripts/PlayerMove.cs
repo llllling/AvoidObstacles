@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlayerMove : Movement2D
+public class PlayerMove : MonoBehaviour
 {
+    [SerializeField]
+    private float moveSpeed = 3f;
+    [SerializeField]
+    private Vector2 moveDirection = Vector2.down;
 
-    private Vector2 currentDirection = Vector2.left;
     private Vector2 minMoveRange;
     private Vector2 maxMoveRange;
-    
-    private Animator animator;
+
+    private Player playerComponent;
 
     private bool isStartWalkAnimation = false;
     private bool IsStartPosition
@@ -23,17 +26,18 @@ public class PlayerMove : Movement2D
 
     void Reset()
     {
-        InitMovement(3f, Vector2.down);
+        moveSpeed = 3f;
+        moveDirection = Vector2.down;
     }
 
     void Start()
     {
+        playerComponent = GetComponent<Player>();
+
         Tilemap background = FindFirstObjectByType<Tilemap>();
         float offsetX = background.size.x / 2f - GetComponent<CircleCollider2D>().radius - 0.3f;
         minMoveRange = new Vector2(-offsetX, 0);
         maxMoveRange = new Vector2(offsetX, transform.position.y);
-
-        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -45,7 +49,8 @@ public class PlayerMove : Movement2D
         if (!IsStartPosition) { return; }
         if (!isStartWalkAnimation)
         {
-            animator.SetTrigger("Walk");
+            playerComponent.OnAnimationWalk();
+            moveDirection = Vector2.left;
             isStartWalkAnimation = true;
         }
 
@@ -75,25 +80,20 @@ public class PlayerMove : Movement2D
         PositionWithinRange();
     }
 
+    private void Move()
+    {
+        transform.position = (Vector2)transform.position + moveSpeed * Time.deltaTime * moveDirection;
+    }
+
     private void PositionWithinRange()
     {
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, minMoveRange.x, maxMoveRange.x), Mathf.Clamp(transform.position.y, minMoveRange.y, maxMoveRange.y));
     }
     private void ToggleDirection()
     {
-        currentDirection = currentDirection == Vector2.left ? Vector2.right : Vector2.left;
-        ExecuteAnimation(currentDirection);
-        MoveTo(currentDirection);
+        moveDirection = moveDirection == Vector2.left ? Vector2.right : Vector2.left;
+        playerComponent.OnAnimationLeftRight(moveDirection);
     }
 
-    private void ExecuteAnimation(Vector2 currentDirection)
-    {
-        if (currentDirection == Vector2.right)
-        {
-            animator.SetBool("IsLeft", false);
-        } else if (currentDirection == Vector2.left)
-        {
-            animator.SetBool("IsLeft", true);
-        }
-    }
+
 }

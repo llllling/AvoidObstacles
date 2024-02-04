@@ -9,11 +9,6 @@ public abstract class Item : MovementSpeedUP
 {
     public abstract void Use();
 
-    void Start()
-    {
-        InitMovementSpeedUP();
-    }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag(Player.playerTag)) return;
