@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public TMP_Text scoreText;
     public GameObject gameOverObj;
-
-
+    [HideInInspector]
+    public float moveSpeed;
 
     public bool IsGameover { get; private set; } = false;
     public int Score { get; private set; } = 0;

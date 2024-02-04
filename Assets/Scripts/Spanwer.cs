@@ -95,8 +95,9 @@ public class Spanwer : MonoBehaviour
     private void InitPositionMinMax()
     {
         Tilemap background = FindFirstObjectByType<Tilemap>();
-        float offsetX = background.size.x / 2f - 0.7f;
-        float offsetY = -background.size.y / 2f - 0.2f;
+        float offsetX = (background.size.x / 2f) - 0.5f;
+        float offsetY = -background.size.y / 2f;
+
         positionMin = new(-offsetX, offsetY);
         positionMax = new(offsetX, offsetY - background.size.y);
     }
