@@ -24,6 +24,5 @@ namespace Utill
             return Time.time >= lastTime + timeInterval;
         }
 
-
     }
 }

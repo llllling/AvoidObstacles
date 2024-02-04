@@ -59,7 +59,7 @@ Unity 2022.3.14f1
 
 - 플레이어 이동 시 Transform vs Rigidbody : 물리적 시뮬레이션(중력의 영향을 받는 등)이 필요하거나 다른 Rigidbody와의 상호작용이 아니고, 간단한 이동이나 위치 변환이므로 Transform을 사용
 
-* 배경/장애물/아이템/코인 모두 위쪽 방향으로 점점 빠르게 스크롤되는 기능이 있음 => <span style="background-color: skyblue; color: black;">이 기능에 관한 클래스를 만든 후 모두 이 클래스를 상속하도록 함.</span>
+* 배경/장애물/아이템/코인 모두 위쪽 방향으로 점점 빠르게 스크롤되는 기능이 있음 => 이 기능에 관한 클래스를 만든 후 모두 이 클래스를 상속하도록 함.
 
   - MovementSpeedUP.cs
 
@@ -81,30 +81,7 @@ Unity 2022.3.14f1
 
               MoveAndIntervalSpeedUP();
           }
-
-          protected void InitMovementSpeedUP()
-          {
-              gameManager = GameManager.instance;
-              interval = new(gameManager.speedUpTimeInterval);
-
-          }
-          protected void MoveAndIntervalSpeedUP()
-          {
-
-              if (interval.IsExceedTimeInterval())
-              {
-                  interval.lastTime = Time.time;
-
-                  gameManager.ScrollSpeedUp();
-
-              }
-              Move();
-          }
-
-          protected void Move()
-          {
-              transform.position = (Vector2)transform.position + gameManager.currentSpeed * Time.deltaTime * moveDirection;
-          }
+        //.. 코드생략
       }
 
   ```
@@ -180,7 +157,173 @@ Unity 2022.3.14f1
 
   ```
 
-* 배경음/효과음 소리관련 설정은 SoundManager 컴포넌트를 만들어서 한 곳에서 관리하도록
+* 장애물/아이템/코인 전부 프리팹으로 오브젝트 풀링으로 생성하는 로직이 동일해서 Spanwer 클래스를 생성하여 상속받아 사용하도록 함.
+
+  - Spanwer.cs
+
+  ```c#
+  public class Spanwer : MonoBehaviour
+  {
+      public GameObject prefab;
+      [HideInInspector]
+      public GameObject[] prefabs;
+      [HideInInspector]
+      public int currentIndex = 0;
+
+      public float batchMinTime;
+      public float batchMaxTime;
+
+      protected TimeInterval batchInterval = new();
+
+      protected Vector2 positionMin;
+      protected Vector2 positionMax;
+
+      [SerializeField]
+      protected int count = 10;
+
+      void Start()
+      {
+          Init();
+      }
+
+      void Update()
+      {
+          if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+
+          if (!IsEnableBatch()) return;
+
+          BatchPrefab(GetRandomPositoin());
+
+      }
+      protected void Init()
+      {
+          CreateObstacles();
+          InitPositionMinMax();
+      }
+
+      protected void InitBatchMinMaxTime(float min, float max)
+      {
+          batchMinTime = min;
+          batchMaxTime = max;
+      }
+
+      protected void BatchPrefab(Vector2 position)
+      {
+
+          if (!prefabs[currentIndex].activeSelf)
+          {
+              prefabs[currentIndex].SetActive(true);
+          }
+
+          prefabs[currentIndex++].transform.position = position;
+          if (currentIndex == prefabs.Length)
+          {
+              currentIndex = 0;
+          }
+      }
+
+      protected bool IsEnableBatch()
+      {
+          if (!batchInterval.IsExceedTimeInterval()) return false;
+
+          batchInterval.lastTime = Time.time;
+
+          batchInterval.timeInterval = GetRandomBatchTime();
+
+          return true;
+      }
+      protected float GetRandomBatchTime()
+      {
+          return Random.Range(batchMinTime, batchMaxTime);
+      }
+
+      protected Vector2 GetRandomPositoin()
+      {
+          return new(Random.Range(positionMin.x, positionMax.x), Random.Range(positionMin.y, positionMax.y));
+      }
+      private void CreateObstacles()
+      {
+
+          prefabs = new GameObject[count];
+          for (int i = 0; i < count; i++)
+          {
+              prefabs[i] = Instantiate(prefab, GetRandomPositoin(), Quaternion.identity);
+              prefabs[i].GetComponent<MovementSpeedUP>().spanwer = this;
+              prefabs[i].SetActive(false);
+          }
+      }
+
+      private void InitPositionMinMax()
+      {
+          Tilemap background = FindFirstObjectByType<Tilemap>();
+          float offsetX = (background.size.x / 2f) - 0.5f;
+          float offsetY = -background.size.y / 2f;
+
+          positionMin = new(-offsetX, offsetY);
+          positionMax = new(offsetX, offsetY - background.size.y);
+      }
+      //..코드 생략
+
+  }
+  ```
+
+  - 무적 아이템 생성기(InvincibleItemSpanwer.cs)
+
+  ```c#
+  public class InvincibleItemSpanwer : Spanwer
+  {
+
+      [HideInInspector]
+      public bool isUsingItem = false;
+      [HideInInspector]
+      public Image uiImage;
+      public float FirstBatchTime;
+      private void Reset()
+      {
+          count = 1;
+          FirstBatchTime = 8f;
+          InitBatchMinMaxTime(10f, 15f);
+      }
+
+
+      void Start()
+      {
+          Init();
+          uiImage = GameObject.Find("Canvas").transform.Find("InvincibleItemUI").GetComponent<Image>();
+          batchInterval.timeInterval = FirstBatchTime;
+      }
+      void Update()
+      {
+          if (GameManager.instance != null && GameManager.instance.IsGameover || isUsingItem) return;
+
+          if (!IsEnableBatch()) return;
+
+          BatchPrefab(GetRandomPositoin());
+      }
+      //..코드 생략
+  }
+  ```
+
+* 장애물/아이템/코인 생성기 및 게임 스크롤 속도 증가 스크립트들 모두 특정 배치시간 값이 주어지고 배치시간을 체크해서 프리팹을 생성하거나 속도를 증가하는 로직이다. => 배치 시간에 관한 기능이 공통적이므로 같은 변수를 여러번 선언한다. 그래서 class로 만들어서 관리하도록 함.
+
+  ```c#
+  public class TimeInterval
+  {
+      public float lastTime = 0f;
+      public float timeInterval = 0f;
+
+      public TimeInterval(float timeInterval = 0f) {
+          this.timeInterval = timeInterval;
+      }
+      public bool IsExceedTimeInterval()
+      {
+          return Time.time >= lastTime + timeInterval;
+      }
+
+  }
+  ```
+
+* 배경음/효과음 소리관련 설정은 SoundManager 컴포넌트를 만들어서 한 곳에서 관리하도록 함.
 
   - SoundControll.cs
 

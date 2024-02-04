@@ -18,10 +18,20 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    void Update()
+    {
+        if (GameManager.instance.IsGameover)
+        {
+            OnAnimationDie();
+            return;
+        }
+    }
+
     public void OnAnimationWalk()
     {
         animator.SetTrigger("Walk");
     }
+
     public void OnAnimationLeftRight(Vector2 moveDirection)
     {
         if (moveDirection == Vector2.right)
@@ -32,5 +42,10 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("IsLeft", true);
         }
+    }
+    
+    public void OnAnimationDie()
+    {
+        animator.SetTrigger("Die");
     }
 }

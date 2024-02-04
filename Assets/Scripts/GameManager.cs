@@ -57,7 +57,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         currentSpeed = initSpeed;
+        IsGameover = false;
+        Score = 0;
     }
     public void OnPlayerDead()
     {
