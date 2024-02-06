@@ -33,7 +33,7 @@ public class ButtonController : MonoBehaviour
         SoundManager.Instance.isMute = isMute;
         SoundManager.Instance.Mute(isMute);
 
-        Image image = GameObject.Find("SoundButton").GetComponent<Image>();
+        Image image = gameObject.transform.Find("SoundButton").GetComponent<Image>();
         if (isMute)
         {
             image.color = Color.gray;
@@ -48,6 +48,6 @@ public class ButtonController : MonoBehaviour
     {
         isOpenInfo = isOpen;
 
-        GameObject.FindObjectOfType<Canvas>().transform.Find("Infomation").gameObject.SetActive(isOpenInfo);
+        gameObject.transform.Find("Infomation").gameObject.SetActive(isOpenInfo);
     }
 }

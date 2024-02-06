@@ -3,11 +3,8 @@ using UnityEngine;
 public class InvincibleItemUI : MonoBehaviour
 {
 
-    private InvincibleItemSpanwer spanwer;
-    void Start()
-    {
-        spanwer = GameObject.Find("InvincibleItemSpanwer").GetComponent<InvincibleItemSpanwer>();
-    }
+    public InvincibleItemSpanwer spanwer;
+ 
     void OnEnable()
     {
         SoundManager.Instance.PlayInvincibleItem();
