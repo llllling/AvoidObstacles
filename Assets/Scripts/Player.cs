@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
+        status = PlayerStatus.NONE;
         animator = GetComponent<Animator>();
     }
     void Update()

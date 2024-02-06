@@ -6,6 +6,11 @@ public class UIManager : MonoBehaviour
     public TMP_Text scoreText;
     public TMP_Text lastScoreText;
     public GameObject gameOverObj;
+
+    void Start()
+    {
+        scoreText.gameObject.SetActive(true);
+    }
     void Update()
     {
         if (GameManager.Instance.IsGameover)
@@ -15,10 +20,6 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-
-            if (!scoreText.gameObject.activeSelf) {
-                scoreText.gameObject.SetActive(true);
-            }
             ScoreUI();
         }
     }
