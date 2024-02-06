@@ -325,56 +325,67 @@ Unity 2022.3.14f1
 
 * 배경음/효과음 소리관련 설정은 SoundManager 컴포넌트를 만들어서 한 곳에서 관리하도록 함.
 
-  - SoundControll.cs
+  - SoundManager.cs
 
   ```c#
-  using UnityEngine;
+    public class SoundManager : MonoBehaviour
+    {
+        [HideInInspector]
+        public bool isMute = false;
 
-  public class SoundControll : MonoBehaviour
-  {
-      [HideInInspector]
-      public bool isSoundOn = true;
-      public static SoundControll instance;
+        public AudioClip button;
+        public AudioClip die;
+        public AudioClip addScore;
+        public AudioClip obstacleWhenInvincible;
+        public AudioClip invincibleItem;
+        [HideInInspector]
+        public AudioSource audioSource;
 
-      public AudioClip button;
-      public AudioClip die;
-      public AudioClip addScore;
-      public AudioClip obstacleWhenInvincible;
-      public AudioClip invincibleItem;
-      [HideInInspector]
-      public AudioSource audioSource;
+        private static SoundManager instance;
+        public static SoundManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<SoundManager>();
 
-      void Awake()
-      {
-          if (instance == null)
-          {
-              instance = this;
-              DontDestroyOnLoad(gameObject);
+                    if (instance == null)
+                    {
+                        GameObject managerObject = new("SoundManager");
+                        instance = managerObject.AddComponent<SoundManager>();
+                    }
+                }
+                return instance;
+            }
+        }
 
-              audioSource = GetComponent<AudioSource>();
-          }
-          else
-          {
-              Destroy(gameObject);
-          }
+        void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                audioSource = GetComponent<AudioSource>();
+            } else
+            {
+                Destroy(gameObject);
+            }
 
-      }
+        }
 
+        void Start()
+        {
+            audioSource.Play();
+        }
 
-      void OnEnable()
-      {
-          if (audioSource == null || !audioSource.isActiveAndEnabled) return;
-          audioSource.Play();
-      }
+        public void Mute(bool isMute)
+        {
+            audioSource.mute = isMute;
 
-      public void PlayDie()
-      {
-          if (audioSource == null || !audioSource.isActiveAndEnabled) return;
-          audioSource.PlayOneShot(die);
-      }
-      //.. 코드생략
+        }
 
-  }
+        //..코드생략
+    }
 
   ```
 
