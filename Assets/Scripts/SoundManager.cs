@@ -3,7 +3,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [HideInInspector]
-    public bool isSoundOn = true;
+    public bool isMute = false;
 
     public AudioClip button;
     public AudioClip die;
@@ -45,36 +45,41 @@ public class SoundManager : MonoBehaviour
 
     }
 
-
-    void OnEnable()
+    void Start()
     {
-        if (audioSource == null || !audioSource.isActiveAndEnabled) return;
-     //   audioSource.Play();
+        audioSource.Play();
+    }
+
+    public void Mute(bool isMute)
+    {
+        audioSource.mute = isMute;
+
+    }
+
+    public void ReplayBGM()
+    {
+        audioSource.Stop();
+        audioSource.Play();
     }
     public void PlayObstacleWhenInvincible()
     {
-        if (audioSource == null || !audioSource.isActiveAndEnabled) return;
         audioSource.PlayOneShot(obstacleWhenInvincible);
     }
     public void PlayAddScore() {
-        if (audioSource == null || !audioSource.isActiveAndEnabled) return;
         audioSource.PlayOneShot(addScore);
     }
     public void PlayDie()
     {
-        if (audioSource == null || !audioSource.isActiveAndEnabled) return;
         audioSource.PlayOneShot(die);
     }
 
     public void PlayButton()
     {
-        if (audioSource == null || !audioSource.isActiveAndEnabled) return;
         audioSource.PlayOneShot(button);
     }
 
     public void PlayInvincibleItem()
     {
-        if (audioSource == null || !audioSource.isActiveAndEnabled) return;
         audioSource.PlayOneShot(invincibleItem);
     }
 }

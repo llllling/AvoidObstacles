@@ -77,7 +77,7 @@ Unity 2022.3.14f1
           }
           void Update()
           {
-              if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+              if (GameManager.Instance.IsGameover) return;
 
               MoveAndIntervalSpeedUP();
           }
@@ -188,7 +188,7 @@ Unity 2022.3.14f1
 
       void Update()
       {
-          if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+          if (GameManager.Instance.IsGameover) return;
 
           if (!IsEnableBatch()) return;
 
@@ -381,14 +381,10 @@ Unity 2022.3.14f1
   - GameManager에서 사용하는 예시
 
   ```c#
-      public void AddScore(int score)
-      {
-          SoundControll.instance.PlayAddScore();
+    public void AddScore(int score)
+    {
+        SoundManager.Instance.PlayAddScore();
 
-          Score += score;
-          if (scoreText != null)
-          {
-              scoreText.text = Score.ToString();
-          }
-      }
+        Score += score;
+    }
   ```

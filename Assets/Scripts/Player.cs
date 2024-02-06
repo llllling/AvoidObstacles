@@ -2,7 +2,8 @@ using UnityEngine;
 public enum PlayerStatus
 {
     NONE,
-    INVINCIBLE
+    INVINCIBLE,
+    DIE
 }
 public class Player : MonoBehaviour
 {
@@ -16,15 +17,16 @@ public class Player : MonoBehaviour
     {
         playerTag = gameObject.tag;
     }
-    private void Start()
+    void Start()
     {
         animator = GetComponent<Animator>();
     }
     void Update()
     {
-        if (GameManager.Instance.IsGameover)
+        if (GameManager.Instance.IsGameover && status != PlayerStatus.DIE)
         {
             OnAnimationDie();
+            status = PlayerStatus.DIE;
             return;
         }
     }
