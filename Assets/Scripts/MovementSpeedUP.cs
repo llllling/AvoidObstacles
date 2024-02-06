@@ -30,7 +30,7 @@ public class MovementSpeedUP : MonoBehaviour
     protected void MoveAndIntervalSpeedUP()
     {
 
-        if (interval.IsExceedTimeInterval())
+        if (interval != null && interval.IsExceedTimeInterval())
         {
             interval.lastTime = Time.time;
 
@@ -49,6 +49,7 @@ public class MovementSpeedUP : MonoBehaviour
 
     protected void Move()
     {
+        if (gameManager == null) return;
         transform.position = (Vector2)transform.position + gameManager.currentSpeed * Time.deltaTime * moveDirection;
     }
 }

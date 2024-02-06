@@ -9,18 +9,21 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public static PlayerStatus status = PlayerStatus.NONE;
     [HideInInspector]
-    public static string playerTag;
+    public static string playerTag = "Player";
 
     private Animator animator;
-    void Start()
+    void Awake()
     {
         playerTag = gameObject.tag;
+    }
+    private void Start()
+    {
         animator = GetComponent<Animator>();
     }
-
     void Update()
     {
-        if (GameManager.instance.IsGameover)
+        if (GameManager.instance == null) return;
+        if ( GameManager.instance.IsGameover)
         {
             OnAnimationDie();
             return;

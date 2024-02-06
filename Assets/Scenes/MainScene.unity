@@ -2666,8 +2666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401b9aac9af54a34facd4f18dc3704dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 387603956}
-  gameOverObj: {fileID: 965290314}
   currentSpeed: 3
   initSpeed: 3
   increaseSpeed: 0.05

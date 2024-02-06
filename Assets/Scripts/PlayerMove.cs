@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        
         playerComponent = GetComponent<Player>();
 
         Tilemap background = FindFirstObjectByType<Tilemap>();
@@ -43,7 +44,6 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         if (GameManager.instance != null && GameManager.instance.IsGameover) return;
-
         Move();
 
         if (!IsStartPosition) { return; }

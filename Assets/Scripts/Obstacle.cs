@@ -4,7 +4,7 @@ using UnityEngine;
 public class Obstacle : MovementSpeedUP
 {
     private Animator animator;
-    private new Rigidbody2D rigidbody;
+    private Rigidbody2D rigidbody;
     private const float forceMagnitude = 15f;
 
 
