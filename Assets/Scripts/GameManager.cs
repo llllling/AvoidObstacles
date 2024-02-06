@@ -4,9 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
-    public TMP_Text scoreText;
-    public GameObject gameOverObj;
 
     /// <summary>
     /// 현재 게임 스크롤 속도
@@ -30,6 +27,24 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public float intervalTimeForSpeed = 2f;
 
+    private static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameManager>();
+
+                if (instance == null)
+                {
+                    GameObject managerObject = new("GameManager");
+                    instance = managerObject.AddComponent<GameManager>();
+                }
+            }
+            return instance;
+        }
+    }
     public bool IsGameover { get; private set; } = false;
     public int Score { get; private set; } = 0;
 
@@ -40,73 +55,43 @@ public class GameManager : MonoBehaviour
             return currentSpeed <= maxScrollSpeed;
         }
     }
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+            Clear();
+        } else
         {
-            Debug.LogWarning("씬에 두 개 이상의 게임 매니저가 존재합니다.");
             Destroy(gameObject);
         }
-
     }
 
-    void Start()
-    {
-        Init();
-    }
-
-    private void Init()
-    {
-        currentSpeed = initSpeed;
-        IsGameover = false;
-        Score = 0;
-    }
     public void OnPlayerDead()
     {
-        SoundControll.instance.PlayDie();
-
-        scoreText.gameObject.SetActive(false);
-
-        gameOverObj.transform.Find("LastScore").transform.GetChild(0).GetComponent<TMP_Text>().text = scoreText.text;
+        SoundManager.Instance.PlayDie();
 
         IsGameover = true;
-
-        gameOverObj.SetActive(true);
-
     }
 
     public void AddScore(int score)
     {
-        SoundControll.instance.PlayAddScore();
+        SoundManager.Instance.PlayAddScore();
 
         Score += score;
-        if (scoreText != null)
-        {
-            scoreText.text = Score.ToString();
-        }
-    }
-
-    public void OnRestart()
-    {
-        SoundControll.instance.PlayButton();
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-    public void OnLoadIntro()
-    {
-        SoundControll.instance.PlayButton();
-
-        SceneManager.LoadScene("IntroScene");
     }
 
 
     public void ScrollSpeedUp()
     {
         currentSpeed += increaseSpeed;
+    }
+
+    public void Clear()
+    {
+        IsGameover = false;
+        Score = 0;
+        currentSpeed = initSpeed;
     }
 }

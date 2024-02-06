@@ -7,15 +7,28 @@ public class ButtonController : MonoBehaviour
     private bool isOpenInfo = false;
     public void OnStart()
     {
-        SoundControll.instance.PlayButton();
+        SoundManager.Instance.PlayButton();
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void OnRestart()
+    {
+        SoundManager.Instance.PlayButton();
+        SceneManager.LoadScene("MainScene");
+        GameManager.Instance.Clear();
+    }
+    public void OnLoadIntro()
+    {
+        SoundManager.Instance.PlayButton();
+        SceneManager.LoadScene("IntroScene");
+        GameManager.Instance.Clear();
     }
 
     public void OnSound()
     {
-        bool isSoundOn = !SoundControll.instance.isSoundOn;
-        SoundControll.instance.isSoundOn = isSoundOn;
-        SoundControll.instance.gameObject.SetActive(isSoundOn);
+        bool isSoundOn = !SoundManager.Instance.isSoundOn;
+        SoundManager.Instance.isSoundOn = isSoundOn;
+        SoundManager.Instance.gameObject.SetActive(isSoundOn);
 
         Image image = GameObject.Find("SoundButton").GetComponent<Image>();
         if (isSoundOn)

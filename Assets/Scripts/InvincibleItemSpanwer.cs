@@ -25,7 +25,7 @@ public class InvincibleItemSpanwer : Spanwer
     }
     void Update()
     {
-        if (GameManager.instance != null && GameManager.instance.IsGameover || isUsingItem) return;
+        if (GameManager.Instance.IsGameover || isUsingItem) return;
 
         if (!IsEnableBatch()) return;
 

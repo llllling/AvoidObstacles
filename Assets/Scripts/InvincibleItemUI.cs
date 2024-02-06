@@ -10,11 +10,11 @@ public class InvincibleItemUI : MonoBehaviour
     }
     void OnEnable()
     {
-        SoundControll.instance.PlayInvincibleItem();
+        SoundManager.Instance.PlayInvincibleItem();
     }
     void Update()
     {
-        if (GameManager.instance == null && GameManager.instance.IsGameover)
+        if (GameManager.Instance.IsGameover)
         {
             EndItemEffect();
             return;

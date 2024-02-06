@@ -10,7 +10,7 @@ public class Coin : MovementSpeedUP
     {
         if (!collision.CompareTag(Player.playerTag)) return;
 
-        GameManager.instance.AddScore(coinScore);
+        GameManager.Instance.AddScore(coinScore);
         gameObject.SetActive(false);
     }
 }

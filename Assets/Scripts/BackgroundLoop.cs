@@ -12,7 +12,7 @@ public class BackgroundLoop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+        if (GameManager.Instance.IsGameover) return;
 
         if (transform.position.y >= height)
         {

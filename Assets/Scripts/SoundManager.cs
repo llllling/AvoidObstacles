@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class SoundControll : MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
     [HideInInspector]
     public bool isSoundOn = true;
-    public static SoundControll instance;
 
     public AudioClip button;
     public AudioClip die;
@@ -14,16 +13,32 @@ public class SoundControll : MonoBehaviour
     [HideInInspector]
     public AudioSource audioSource;
 
+    private static SoundManager instance;
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<SoundManager>();
+
+                if (instance == null)
+                {
+                    GameObject managerObject = new("SoundManager");
+                    instance = managerObject.AddComponent<SoundManager>();
+                }
+            }
+            return instance;
+        }
+    }
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
-
             audioSource = GetComponent<AudioSource>();
-        }
-        else
+        } else
         {
             Destroy(gameObject);
         }

@@ -43,7 +43,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+        if (GameManager.Instance.IsGameover) return;
         Move();
 
         if (!IsStartPosition) { return; }

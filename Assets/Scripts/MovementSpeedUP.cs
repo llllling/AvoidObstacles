@@ -17,15 +17,18 @@ public class MovementSpeedUP : MonoBehaviour
     }
     void Update()
     {
-        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+        if (GameManager.Instance.IsGameover) return;
 
         MoveAndIntervalSpeedUP();
     }
 
     protected void InitMovementSpeedUP()
     {
-        gameManager = GameManager.instance;
-        interval = new(gameManager.intervalTimeForSpeed);
+        gameManager = GameManager.Instance;
+        if (gameManager != null)
+        {
+            interval = new(gameManager.intervalTimeForSpeed);
+        }
     }
     protected void MoveAndIntervalSpeedUP()
     {

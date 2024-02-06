@@ -22,8 +22,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (GameManager.instance == null) return;
-        if ( GameManager.instance.IsGameover)
+        if (GameManager.Instance.IsGameover)
         {
             OnAnimationDie();
             return;

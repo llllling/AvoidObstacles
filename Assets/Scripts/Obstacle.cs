@@ -22,12 +22,12 @@ public class Obstacle : MovementSpeedUP
 
         if (Player.status == PlayerStatus.INVINCIBLE)
         {
-            SoundControll.instance.PlayObstacleWhenInvincible();
+            SoundManager.Instance.PlayObstacleWhenInvincible();
             StartCoroutine(BouncesOff(collision));
             return;
         } else
         {
-            GameManager.instance.OnPlayerDead();
+            GameManager.Instance.OnPlayerDead();
         }
 
 

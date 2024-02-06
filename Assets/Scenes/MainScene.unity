@@ -357,7 +357,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.45098042, g: 0.46274513, b: 0.10980393, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -563,6 +563,7 @@ GameObject:
   - component: {fileID: 300267625}
   - component: {fileID: 300267624}
   - component: {fileID: 300267623}
+  - component: {fileID: 300267626}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -700,6 +701,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &300267626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300267622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e3d74d7ed34f0f488dfd4a0063d7c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &387603954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,6 +1853,7 @@ GameObject:
   - component: {fileID: 949318985}
   - component: {fileID: 949318990}
   - component: {fileID: 949318989}
+  - component: {fileID: 949318991}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1972,6 +1986,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &949318991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949318984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695ae06b92215b9458453695661e3d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &952689540
 GameObject:
   m_ObjectHideFlags: 0
@@ -2400,8 +2426,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1855875623}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 949318991}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
         m_MethodName: OnRestart
         m_Mode: 1
         m_Arguments:
@@ -2622,6 +2648,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332896330}
   m_CullTransparentMesh: 1
+--- !u!1 &1485362271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1485362274}
+  - component: {fileID: 1485362273}
+  - component: {fileID: 1485362272}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1485362272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485362271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e3d74d7ed34f0f488dfd4a0063d7c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1485362273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485362271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a46fcac11694549909237e7d144c90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  lastScoreText: {fileID: 0}
+  gameOverObj: {fileID: 0}
+--- !u!4 &1485362274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485362271}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1359.0707, y: 1728.2808, z: -19.130386}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1855875620
 GameObject:
   m_ObjectHideFlags: 0
@@ -2632,6 +2718,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1855875622}
   - component: {fileID: 1855875623}
+  - component: {fileID: 1855875624}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2671,6 +2758,18 @@ MonoBehaviour:
   increaseSpeed: 0.05
   maxScrollSpeed: 8
   intervalTimeForSpeed: 2
+--- !u!114 &1855875624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855875620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e3d74d7ed34f0f488dfd4a0063d7c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1957370037
 GameObject:
   m_ObjectHideFlags: 0
@@ -2864,8 +2963,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1855875623}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 949318991}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
         m_MethodName: OnLoadIntro
         m_Mode: 1
         m_Arguments:
@@ -3947,7 +4046,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4283356415
-  m_fontColor: {r: 1, g: 0.83321863, b: 0.3075471, a: 1}
+  m_fontColor: {r: 0.05660379, g: 0.0037379782, b: 0.0037379782, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3970,7 +4069,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -4026,7 +4125,6 @@ GameObject:
   - component: {fileID: 2073385925}
   - component: {fileID: 2073385924}
   - component: {fileID: 2073385923}
-  - component: {fileID: 2073385922}
   m_Layer: 5
   m_Name: SoundButton
   m_TagString: Untagged
@@ -4053,18 +4151,6 @@ RectTransform:
   m_AnchoredPosition: {x: 659, y: -51}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2073385922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073385920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 695ae06b92215b9458453695661e3d1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2073385923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4109,7 +4195,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2073385922}
+      - m_Target: {fileID: 949318991}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
         m_MethodName: OnSound
         m_Mode: 1
@@ -4163,7 +4249,6 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1855875622}
   - {fileID: 195338345}
   - {fileID: 763949090}
   - {fileID: 47156553}
@@ -4171,5 +4256,7 @@ SceneRoots:
   - {fileID: 1024295038}
   - {fileID: 738124891}
   - {fileID: 949318988}
-  - {fileID: 300267625}
   - {fileID: 1013180031}
+  - {fileID: 1855875622}
+  - {fileID: 300267625}
+  - {fileID: 1485362274}

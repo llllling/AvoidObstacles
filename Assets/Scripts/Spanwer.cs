@@ -28,7 +28,7 @@ public class Spanwer : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance != null && GameManager.instance.IsGameover) return;
+        if (GameManager.Instance.IsGameover) return;
         
         if (!IsEnableBatch()) return;
 
